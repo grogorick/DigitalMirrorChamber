@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 894504912593732342}
   - component: {fileID: 5581091174140192347}
-  - component: {fileID: 894504912593732343}
+  - component: {fileID: 1679548777091543514}
   - component: {fileID: 894504912593732338}
   - component: {fileID: 894504912593732341}
   - component: {fileID: 6809137287625279467}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c315ed0d384b1a4c9609e19978557c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &894504912593732343
+--- !u!114 &1679548777091543514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,37 +57,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 894504912593732105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9ead7c20fbd99744880e66572a86a07, type: 3}
+  m_Script: {fileID: 11500000, guid: 908ec82ff9e040843a2b6cf5b7987e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attachJointName: Joint RightHandIndexDistal
   avatarObject: {fileID: 0}
-  tabletAttachPointJointName: Joint LeftHandIndexMeta
-  tabletTouchFingerJointName: Joint RightHandIndexDistal
-  leftHandWristJointName: Joint LeftHandWrist
-  rightHandWristJointName: Joint RightHandWrist
-  leftHandSkeleton: {fileID: 0}
-  rightHandSkeleton: {fileID: 0}
-  updateLeftHandPose: 0
-  updateRightHandPose: 0
-  tabletHandleObject: {fileID: 0}
-  releasedPosZ: -0.01
-  wall:
-    obj: {fileID: 894504913284608797}
-    pressed: 1
-  clone:
-    obj: {fileID: 894504913547599904}
-    pressed: 0
-  camerasUp:
-    obj: {fileID: 0}
-    pressed: 0
-  camerasDown:
-    obj: {fileID: 0}
-    pressed: 0
-  onButtonClick: []
-  platformObject: {fileID: 0}
-  rotationSpeed: 0.01
-  webcams: []
-  moveCameraSpeed: 0.01
+  mode: 17
 --- !u!33 &894504912593732338
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -146,7 +121,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894504912593732105}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.50000036
   m_Height: 1.958743
@@ -161,6 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 894504913284608794}
+  - component: {fileID: 4039971028723808186}
   - component: {fileID: 894504913284608792}
   - component: {fileID: 894504913284608795}
   - component: {fileID: 894504913284608774}
@@ -180,13 +156,43 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894504913284608797}
   m_LocalRotation: {x: -0, y: -0, z: 0.0000000018626451, w: 1}
-  m_LocalPosition: {x: -0.056, y: 0.1003, z: 0}
-  m_LocalScale: {x: 0.096000016, y: 0.08000005, z: 0.009999997}
+  m_LocalPosition: {x: -0.056, y: 0.1, z: 0}
+  m_LocalScale: {x: 0.096, y: 0.08, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 894504913976421148}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4039971028723808186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894504913284608797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d3cab16fcd4984aad205e3f147692e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4835552631297674496}
+        m_TargetAssemblyTypeName: RemoteControlScript, Assembly-CSharp
+        m_MethodName: action_rotateToDisplayWall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  toggleOther: {fileID: 894504913547599904}
+  pressed: 1
+  releasedPosZ: -0.01
 --- !u!33 &894504913284608792
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -248,8 +254,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8692607, y: 0.8217206, z: 0.8850195}
-  m_Center: {x: -0.0025608244, y: 0.006188988, z: -0.47086105}
+  m_Size: {x: 0.8692607, y: 0.8217206, z: 1.0207059}
+  m_Center: {x: -0.0025608288, y: 0.006188947, z: 0.48339486}
 --- !u!54 &894504913284608775
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -275,12 +281,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 894504913547599905}
+  - component: {fileID: 5668628424716068215}
   - component: {fileID: 894504913547599917}
   - component: {fileID: 894504913547599916}
   - component: {fileID: 894504913547599919}
   - component: {fileID: 894504913547599914}
   m_Layer: 0
-  m_Name: Btn-Clone
+  m_Name: Btn-MirrorAvatar
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -294,13 +301,43 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894504913547599904}
   m_LocalRotation: {x: -0, y: -0, z: 0.0000000018626451, w: 1}
-  m_LocalPosition: {x: 0.056, y: 0.1003, z: -0}
-  m_LocalScale: {x: 0.096000016, y: 0.08000005, z: 0.009999997}
+  m_LocalPosition: {x: 0.056, y: 0.1, z: 0}
+  m_LocalScale: {x: 0.096, y: 0.08, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 894504913976421148}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5668628424716068215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894504913547599904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d3cab16fcd4984aad205e3f147692e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4835552631297674496}
+        m_TargetAssemblyTypeName: RemoteControlScript, Assembly-CSharp
+        m_MethodName: action_rotateToMirrorAvatar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  toggleOther: {fileID: 0}
+  pressed: 0
+  releasedPosZ: -0.01
 --- !u!33 &894504913547599917
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -362,8 +399,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8692607, y: 0.8217206, z: 0.8850195}
-  m_Center: {x: -0.0025608244, y: 0.006188988, z: -0.47086105}
+  m_Size: {x: 0.8692607, y: 0.8217206, z: 1.0207059}
+  m_Center: {x: -0.0025608288, y: 0.006188947, z: 0.48339486}
 --- !u!54 &894504913547599914
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -389,6 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 894504913976421148}
+  - component: {fileID: 4835552631297674496}
   m_Layer: 0
   m_Name: RemoteControl
   m_TagString: Untagged
@@ -417,6 +455,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4835552631297674496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894504913976421151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ead7c20fbd99744880e66572a86a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avatarObject: {fileID: 0}
+  leftHandSkeleton: {fileID: 0}
+  rightHandSkeleton: {fileID: 0}
+  updateLeftHandPose: 0
+  updateRightHandPose: 0
+  tabletHandleObject: {fileID: 0}
+  releasedPosZ: -0.01
+  wall:
+    obj: {fileID: 894504913284608797}
+    pressed: 1
+  clone:
+    obj: {fileID: 894504913547599904}
+    pressed: 0
+  camerasUp:
+    obj: {fileID: 3927227524188841857}
+    pressed: 0
+  camerasDown:
+    obj: {fileID: 6613741983066850278}
+    pressed: 0
+  platformObject: {fileID: 0}
+  rotationSpeed: 0.01
+  webcams: []
+  moveCameraSpeed: 0.01
 --- !u!1 &3927227524188841857
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7724173602027761264}
+  - component: {fileID: 5826196564613627167}
   - component: {fileID: 4639047409144612648}
   - component: {fileID: 5990272842769727123}
   - component: {fileID: 7887428450060740451}
@@ -446,12 +520,42 @@ Transform:
   m_GameObject: {fileID: 3927227524188841857}
   m_LocalRotation: {x: -0, y: -0, z: 0.0000000018626451, w: 1}
   m_LocalPosition: {x: -0.056, y: -0.0356, z: -0}
-  m_LocalScale: {x: 0.096000016, y: 0.061480273, z: 0.009999997}
+  m_LocalScale: {x: 0.096, y: 0.061480273, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 894504913976421148}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5826196564613627167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3927227524188841857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d3cab16fcd4984aad205e3f147692e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4835552631297674496}
+        m_TargetAssemblyTypeName: RemoteControlScript, Assembly-CSharp
+        m_MethodName: action_moveCamerasUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  toggleOther: {fileID: 0}
+  pressed: 0
+  releasedPosZ: -0.01
 --- !u!33 &4639047409144612648
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -513,8 +617,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8692607, y: 0.8217206, z: 0.8850195}
-  m_Center: {x: -0.0025608244, y: 0.006188988, z: -0.47086105}
+  m_Size: {x: 0.8692607, y: 0.8217206, z: 1.0207059}
+  m_Center: {x: -0.0025608288, y: 0.006188947, z: 0.48339486}
 --- !u!54 &1412482521418223704
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -540,6 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5634828970118927511}
+  - component: {fileID: 4752354077600416971}
   - component: {fileID: 6919836860880669602}
   - component: {fileID: 1540617468439531835}
   - component: {fileID: 7793362524033182865}
@@ -560,12 +665,42 @@ Transform:
   m_GameObject: {fileID: 6613741983066850278}
   m_LocalRotation: {x: -0, y: -0, z: 0.0000000018626451, w: 1}
   m_LocalPosition: {x: -0.056, y: -0.1091, z: 0}
-  m_LocalScale: {x: 0.096000016, y: 0.061480273, z: 0.009999997}
+  m_LocalScale: {x: 0.096, y: 0.061480273, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 894504913976421148}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4752354077600416971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6613741983066850278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d3cab16fcd4984aad205e3f147692e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4835552631297674496}
+        m_TargetAssemblyTypeName: RemoteControlScript, Assembly-CSharp
+        m_MethodName: action_moveCamerasDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  toggleOther: {fileID: 0}
+  pressed: 0
+  releasedPosZ: -0.01
 --- !u!33 &6919836860880669602
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -627,8 +762,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8692607, y: 0.8217206, z: 0.8850195}
-  m_Center: {x: -0.0025608244, y: 0.006188988, z: -0.47086105}
+  m_Size: {x: 0.8692607, y: 0.8217206, z: 1.0207059}
+  m_Center: {x: -0.0025608288, y: 0.006188947, z: 0.48339486}
 --- !u!54 &3266059264111842112
 Rigidbody:
   m_ObjectHideFlags: 0
