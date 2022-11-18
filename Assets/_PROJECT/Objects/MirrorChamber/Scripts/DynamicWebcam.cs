@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MonitorDynamicEdge : Monitor
+public class DynamicWebcam : Monitor
 {
     public Camera mainCamera;
     public GameObject monitorCameraHandle;

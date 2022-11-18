@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e8a70ad3e437b840a6281eb08aeb6bf, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 6708396597253463193}
   - component: {fileID: 2974035156490149022}
   - component: {fileID: 5798365020407328858}
+  - component: {fileID: 1983805293916455641}
   m_Layer: 0
   m_Name: DisplayCube
   m_TagString: Untagged
@@ -182,6 +183,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1983805293916455641
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8936946424910176100}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1.1958069}
+  m_Center: {x: -0, y: 0, z: 0.0978995}
 --- !u!1 &9053367268439167408
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9053367268439167409}
   m_Layer: 0
-  m_Name: MonitorOnly
+  m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
