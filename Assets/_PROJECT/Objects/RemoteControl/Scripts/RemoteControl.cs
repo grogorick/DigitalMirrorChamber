@@ -8,56 +8,74 @@ public class RemoteControl : MonoBehaviour
     [Header("Avatar")]
     public GameObject avatarObject;
 
-    public GameObject leftHandSkeleton;
-    public GameObject rightHandSkeleton;
-    public bool updateLeftHandPose = false;
-    public bool updateRightHandPose = false;
-
-    OvrAvatarCustomHandPose[] customHandPoses;
+    private OvrAvatarCustomHandPose customHandPoseLeft, customHandPoseRight;
 
 
     private void Start()
     {
+        initAnims();
+        anims[ANIM.rotatePlatform].speed = rotationSpeed;
+        anims[ANIM.moveCameras].speed = moveCameraSpeed;
+
         // cache y-pos of mirror cameras in scene
-        foreach (var cam in webcams)
+        foreach (var cam in webcamObjects)
             cam.maxY = cam.cameraHandle.transform.localPosition.y;
 
-
-        // init animation caches
-        for (int i = 0; i < (int)ANIM.COUNT; i++)
-            anims.Add((ANIM)i, new());
-
-
-        customHandPoses = avatarObject.GetComponents<OvrAvatarCustomHandPose>();
+        OvrAvatarCustomHandPose[] customHandPoses = avatarObject.GetComponents<OvrAvatarCustomHandPose>();
+        customHandPoseLeft = customHandPoses[0];
+        customHandPoseRight = customHandPoses[1];
     }
 
-    private void Update()
+    public void action_approachTablet()
     {
-        if (updateLeftHandPose)
+        customHandPoseRight.enabled = true;
+    }
+    public void action_leaveTablet()
+    {
+        customHandPoseRight.enabled = false;
+    }
+
+    private void FixedUpdate()
+    {
+        // run all animations
+        updateAnims();
+
+        // platform rotation
+        var rot = anims[ANIM.rotatePlatform];
+        if (rot.changed)
+            platformObject.transform.rotation = Quaternion.Euler(0, rot.result, 0);
+
+        // webcam movement
+        var mc = anims[ANIM.moveCameras];
+        if (mc.changed)
         {
-            updateLeftHandPose = false;
-            customHandPoses[0].UpdateHandPose();
-        }
-        if (updateRightHandPose)
-        {
-            updateRightHandPose = false;
-            customHandPoses[1].UpdateHandPose();
+            foreach (var cam in webcamObjects)
+            {
+                var pos = cam.cameraHandle.transform.localPosition;
+                pos.y = Mathf.Lerp(cam.maxY, cam.minY, mc.result);
+                cam.cameraHandle.transform.localPosition = pos;
+            }
         }
     }
+
 
     [Header("Spinning Platform")]
-    public GameObject platformObject;
     public float rotationSpeed = .01f;
+    public GameObject platformObject;
 
     public void action_rotateToDisplayWall()
     {
         anims[ANIM.rotatePlatform].animate(0);
     }
+
     public void action_rotateToMirrorAvatar()
     {
         anims[ANIM.rotatePlatform].animate(180);
     }
 
+
+    [Header("Mirror Webcams")]
+    public float moveCameraSpeed = .01f;
 
     [Serializable]
     public class WebCam
@@ -68,19 +86,21 @@ public class RemoteControl : MonoBehaviour
         [System.NonSerialized]
         public float maxY;
     }
-    [Header("Mirror Webcams")]
-    public List<WebCam> webcams;
-    public float moveCameraSpeed = .01f;
+    public List<WebCam> webcamObjects;
 
     public void action_moveCamerasUp()
     {
         anims[ANIM.moveCameras].animateDiff(-.25f);
     }
+
     public void action_moveCamerasDown()
     {
         anims[ANIM.moveCameras].animateDiff(.25f);
     }
 
+
+    enum ANIM { rotatePlatform, moveCameras, COUNT }
+    Dictionary<ANIM, Anim> anims = new();
 
     class Anim
     {
@@ -109,33 +129,17 @@ public class RemoteControl : MonoBehaviour
             }
         }
     }
-    Dictionary<ANIM, Anim> anims = new();
-    enum ANIM { rotatePlatform, moveCameras, COUNT }
 
-    private void FixedUpdate()
+    private void initAnims()
     {
-        // run all animations
-        anims[ANIM.rotatePlatform].speed = rotationSpeed;
-        anims[ANIM.moveCameras].speed = moveCameraSpeed;
+        for (int i = 0; i < (int)ANIM.COUNT; i++)
+            anims.Add((ANIM)i, new());
+    }
+
+    private void updateAnims()
+    {
         foreach (var anim in anims.Values)
             anim.step();
-
-        // platform rotation
-        var rot = anims[ANIM.rotatePlatform];
-        if (rot.changed)
-            platformObject.transform.rotation = Quaternion.Euler(0, rot.result, 0);
-
-        // webcam movement
-        var mc = anims[ANIM.moveCameras];
-        if (mc.changed)
-        {
-            foreach (var cam in webcams)
-            {
-                var pos = cam.cameraHandle.transform.localPosition;
-                pos.y = Mathf.Lerp(cam.maxY, cam.minY, mc.result);
-                cam.cameraHandle.transform.localPosition = pos;
-            }
-        }
     }
 
 

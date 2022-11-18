@@ -4,16 +4,30 @@ public class TabletButtonTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Button"))
+        TabletButton btn = other.gameObject.GetComponent<TabletButton>();
+        if (btn != null)
         {
-            TabletButton btn = other.gameObject.GetComponent<TabletButton>();
-            if (btn != null)
+            Debug.Log("### MY | TabletButtonTrigger | Button `" + other.gameObject.name + "` triggered");
+            btn.press();
+        }
+
+        else
+        {
+            RemoteControl rc = other.gameObject.GetComponent<RemoteControl>();
+            if (rc != null)
             {
-                Debug.Log("### MY | TabletButtonTrigger | Button `" + other.gameObject.name + "` triggered");
-                btn.press();
+                Debug.Log("### MY | TabletButtonTrigger | Hand approach tablet");
+                rc.action_approachTablet();
             }
-            else
-                Debug.LogWarning("### MY | TabletButtonTrigger | Button `" + other.gameObject.name + "` triggered, but `TabletButtonScript` is missing");
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        RemoteControl rc = other.gameObject.GetComponent<RemoteControl>();
+        if (rc != null)
+        {
+            Debug.Log("### MY | TabletButtonTrigger | Hand leave tablet");
+            rc.action_leaveTablet();
         }
     }
 }

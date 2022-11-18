@@ -1,7 +1,6 @@
 using Oculus.Avatar2;
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class AttachToAvatar : MonoBehaviour
 {
@@ -20,7 +19,8 @@ public class AttachToAvatar : MonoBehaviour
         keepLocalRotation                       = 0x1000,
         keepLocalPose                           = 0x1100,
 
-        keepLocalRotationAndResetLocalPosition  = 0x1001
+        keepLocalRotationAndResetLocalPosition  = 0x1001,
+        keepLocalPositionAndResetLocalRotation  = 0x0110
     }
     public ChangeParentMode mode;
 
@@ -28,6 +28,7 @@ public class AttachToAvatar : MonoBehaviour
     public GameObject avatarObject;
 
     private GameObject attachJoint;
+
 
     private void Start()
     {
@@ -52,7 +53,7 @@ public class AttachToAvatar : MonoBehaviour
     public void OnAvatarLoaded(OvrAvatarEntity ae)
     {
         if (attachJoint == null && (attachJoint = findAvatarJoint(attachJointName)))
-            attachTo(gameObject, attachJoint);
+            attachTo(attachJoint, mode);
     }
 
     public GameObject findAvatarJoint(string jointName)
@@ -65,23 +66,31 @@ public class AttachToAvatar : MonoBehaviour
         return joint;
     }
 
-    public void attachTo(GameObject obj, GameObject newParent, ChangeParentMode mode = ChangeParentMode.resetLocalPose)
+    public void attachTo(GameObject newParent, ChangeParentMode mode = ChangeParentMode.resetLocalPose)
     {
-        Vector3 tmpPos = obj.transform.localPosition;
-        Quaternion tmpRot = obj.transform.localRotation;
+        Vector3 tmpPos = transform.localPosition;
+        Quaternion tmpRot = transform.localRotation;
 
-        obj.transform.parent = newParent.transform;
+        transform.parent = newParent.transform;
 
         if (ChangeParentMode.unchanged != (mode & ChangeParentMode.keepLocalPosition))
-            obj.transform.localPosition = tmpPos;
+        {
+            transform.localPosition = tmpPos;
+        }
         if (ChangeParentMode.unchanged != (mode & ChangeParentMode.keepLocalRotation))
-            obj.transform.localRotation = tmpRot;
+        {
+            transform.localRotation = tmpRot;
+        }
 
         if (ChangeParentMode.unchanged != (mode & ChangeParentMode.resetLocalPosition))
-            obj.transform.localPosition = Vector3.zero;
+        {
+            transform.localPosition = Vector3.zero;
+        }
         if (ChangeParentMode.unchanged != (mode & ChangeParentMode.resetLocalRotation))
-            obj.transform.localRotation = Quaternion.identity;
+        {
+            transform.localRotation = Quaternion.identity;
+        }
 
-        Debug.Log("### MY | AttachToAvatar | `" + obj.name + "` attached to `" + newParent.name + "`");
+        Debug.Log("### MY | AttachToAvatar | `" + name + "` attached to `" + newParent.name + "` mode: " + mode);
     }
 }
