@@ -5,23 +5,47 @@ using UnityEngine;
 
 public class RemoteControl : MonoBehaviour
 {
-    [Header("Avatar")]
-    public GameObject avatarObject;
-
-    private OvrAvatarCustomHandPose customHandPoseLeft, customHandPoseRight;
-
-
     private void Start()
     {
         initAnims();
-        anims[ANIM.rotatePlatform].speed = rotationSpeed;
-        anims[ANIM.moveCameras].speed = moveCameraSpeed;
 
         // cache y-pos of mirror cameras in scene
         foreach (var cam in webcamObjects)
             cam.maxY = cam.cameraHandle.transform.localPosition.y;
 
-        OvrAvatarCustomHandPose[] customHandPoses = avatarObject.GetComponents<OvrAvatarCustomHandPose>();
+        initAvatar();
+    }
+
+    private void FixedUpdate()
+    {
+        // run all animations
+        anims.update();
+
+        // platform rotation
+        if (animRotatePlatform.changed)
+            platformObject.transform.rotation = Quaternion.Euler(0, animRotatePlatform.value, 0);
+
+        // webcam movement
+        if (animMoveCameras.changed)
+        {
+            foreach (var cam in webcamObjects)
+            {
+                var pos = cam.cameraHandle.transform.localPosition;
+                pos.y = Mathf.Lerp(cam.minY, cam.maxY, animMoveCameras.value);
+                cam.cameraHandle.transform.localPosition = pos;
+            }
+        }
+    }
+
+
+    [Header("Avatar")]
+    public SampleAvatarEntity avatarEntity;
+
+    private OvrAvatarCustomHandPose customHandPoseLeft, customHandPoseRight;
+
+    private void initAvatar()
+    {
+        OvrAvatarCustomHandPose[] customHandPoses = avatarEntity.GetComponents<OvrAvatarCustomHandPose>();
         customHandPoseLeft = customHandPoses[0];
         customHandPoseRight = customHandPoses[1];
     }
@@ -35,29 +59,6 @@ public class RemoteControl : MonoBehaviour
         customHandPoseRight.enabled = false;
     }
 
-    private void FixedUpdate()
-    {
-        // run all animations
-        updateAnims();
-
-        // platform rotation
-        var rot = anims[ANIM.rotatePlatform];
-        if (rot.changed)
-            platformObject.transform.rotation = Quaternion.Euler(0, rot.result, 0);
-
-        // webcam movement
-        var mc = anims[ANIM.moveCameras];
-        if (mc.changed)
-        {
-            foreach (var cam in webcamObjects)
-            {
-                var pos = cam.cameraHandle.transform.localPosition;
-                pos.y = Mathf.Lerp(cam.maxY, cam.minY, mc.result);
-                cam.cameraHandle.transform.localPosition = pos;
-            }
-        }
-    }
-
 
     [Header("Spinning Platform")]
     public float rotationSpeed = .01f;
@@ -65,17 +66,17 @@ public class RemoteControl : MonoBehaviour
 
     public void action_rotateToDisplayWall()
     {
-        anims[ANIM.rotatePlatform].animate(0);
+        animRotatePlatform.animate(0);
     }
 
     public void action_rotateToMirrorAvatar()
     {
-        anims[ANIM.rotatePlatform].animate(180);
+        animRotatePlatform.animate(180);
     }
 
 
     [Header("Mirror Webcams")]
-    public float moveCameraSpeed = .01f;
+    public float moveCamerasSpeed = .01f;
 
     [Serializable]
     public class WebCam
@@ -90,56 +91,38 @@ public class RemoteControl : MonoBehaviour
 
     public void action_moveCamerasUp()
     {
-        anims[ANIM.moveCameras].animateDiff(-.25f);
+        animMoveCameras.animateDiff(.25f);
     }
 
     public void action_moveCamerasDown()
     {
-        anims[ANIM.moveCameras].animateDiff(.25f);
+        animMoveCameras.animateDiff(-.25f);
     }
 
 
-    enum ANIM { rotatePlatform, moveCameras, COUNT }
-    Dictionary<ANIM, Anim> anims = new();
+    [Header("Sound System")]
+    public AudioSource soundSource;
 
-    class Anim
+    public void action_soundPlay()
     {
-        public float alpha = 1, speed = 0, start = 0, end = 0, result = 0;
-        public bool changed = false;
-
-        public void animate(float endValue)
-        {
-            start = result;
-            alpha = 0;
-            end = endValue;
-        }
-
-        public void animateDiff(float diffValue, float clampMin = 0, float clampMax = 1)
-        {
-            animate(Mathf.Clamp(result + diffValue, clampMin, clampMax));
-        }
-
-        public void step()
-        {
-            if (alpha != 1)
-            {
-                alpha = Mathf.Min(1, alpha + speed);
-                result = Mathf.SmoothStep(start, end, alpha);
-                changed = true;
-            }
-        }
+        soundSource.Play();
     }
+
+    public void action_soundPause()
+    {
+        soundSource.Pause();
+    }
+
+
+    private Anim animRotatePlatform;
+    private Anim animMoveCameras;
+
+    private AnimationPool anims = new();
 
     private void initAnims()
     {
-        for (int i = 0; i < (int)ANIM.COUNT; i++)
-            anims.Add((ANIM)i, new());
-    }
-
-    private void updateAnims()
-    {
-        foreach (var anim in anims.Values)
-            anim.step();
+        anims.Add(animRotatePlatform = new(0, rotationSpeed));
+        anims.Add(animMoveCameras = new(1, moveCamerasSpeed));
     }
 
 
@@ -168,4 +151,53 @@ public class RemoteControl : MonoBehaviour
     //    }
     //    transform.rotation = Quaternion.Euler(0, rotation, 0);
     //}
+}
+
+
+class AnimationPool : List<Anim>
+{
+    public void update()
+    {
+        foreach (var anim in this)
+            anim.step();
+    }
+}
+
+class Anim
+{
+    public float speed;
+    public bool changed { get; private set; } = false;
+    public float value { get; private set; }
+
+    private float alpha = 1, start = 0, end = 0;
+
+    public Anim(float startValue, float speed, float? endValue = null)
+    {
+        this.speed = speed;
+        value = startValue;
+
+        if (endValue != null)
+            animate(endValue.Value);
+    }
+
+    public void animate(float endValue)
+    {
+        start = value;
+        end = endValue;
+        alpha = 0;
+    }
+
+    public void animateDiff(float diffValue, float clampMin = 0, float clampMax = 1)
+    {
+        animate(Mathf.Clamp(value + diffValue, clampMin, clampMax));
+    }
+
+    public void step()
+    {
+        if (changed = (alpha != 1))
+        {
+            alpha = Mathf.Min(1, alpha + speed);
+            value = Mathf.SmoothStep(start, end, alpha);
+        }
+    }
 }

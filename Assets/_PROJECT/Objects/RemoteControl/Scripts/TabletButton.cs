@@ -1,71 +1,38 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class TabletButton : MonoBehaviour
+public class TabletButton : TriggerAction
 {
-    public UnityEvent action;
-
-    [Tooltip("Regular button, if empty")]
-    public GameObject toggleOther;
-
-    public bool pressed; // pressedIfToggle
-
     public float releasedPosZ = -.01f;
+    public bool pressed;
 
 
-    private void Start()
+    protected virtual void Start()
     {
-        if (pressed)
-            setPressed(true);
-        else
-            setPressed(false);
+        colliderTag = "ButtonTrigger";
 
-        if (toggleOther != null)
-        {
-            TabletButton otherBtn = toggleOther.GetComponent<TabletButton>();
-            if (otherBtn != null)
-            {
-                if (otherBtn.toggleOther != gameObject)
-                {
-                    if (otherBtn.toggleOther == null)
-                        Debug.Log("### MY | TabletButton | Button `" + name + "`.toggleOther set to `" + toggleOther.name + "`, which does not reference back. Doing so now");
-                    else
-                        Debug.LogWarning("### MY | TabletButton | Fixed: Button `" + name + ".toggleOther` set to `" + toggleOther.name + "`, which references another object");
-                    otherBtn.toggleOther = gameObject;
-                }
-                if (otherBtn.pressed == pressed)
-                {
-                    Debug.LogWarning("### MY | TabletButton | Fixed: Buttons `" + name + "` and `" + toggleOther.name + "` with identical initial pressed state");
-                    otherBtn.setPressed(!otherBtn.pressed);
-                }
-            }
-        }
+        setPressed(false);
     }
 
-    public void press()
+
+    protected override void doAction()
+    {
+        Debug.Log("### MY | TabletButton | Button `" + name + "` doAction");
+        press();
+        base.doAction();
+    }
+
+    protected virtual void press()
     {
         Debug.Log("### MY | TabletButton | Button `" + name + "` press (" + pressed + ")");
 
         setPressed(true);
-        vibrate(true, false, .1f);
-        vibrate(false, true, 1f, .01f);
+        releaseBtnAfter();
 
-        // release other button (if set)
-        if (toggleOther != null) {
-            TabletButton otherBtn = toggleOther.GetComponent<TabletButton>();
-            if (otherBtn != null)
-                otherBtn.setPressed(false);
-        }
-
-        // otherwise release this button
-        else
-            releaseBtnAfter();
-
-        action.Invoke();
+        vibrate();
     }
 
-    void setPressed(bool press)
+    protected void setPressed(bool press)
     {
         Debug.Log("### MY | TabletButton | Button `" + name + "` setPressed (" + press + ")");
 
@@ -76,24 +43,30 @@ public class TabletButton : MonoBehaviour
     }
 
 
-    void releaseBtnAfter(float seconds = .5f)
+    protected void releaseBtnAfter(float seconds = .5f)
     {
-        StartCoroutine(_releaseBtn(seconds));
+        StartCoroutine(_releaseBtnAfter(seconds));
     }
 
-    IEnumerator _releaseBtn(float seconds)
+    private IEnumerator _releaseBtnAfter(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         setPressed(false);
     }
 
 
-    void vibrate(bool leftHand, bool rightHand, float amplitude, float seconds = .1f)
+    protected void vibrate()
+    {
+        vibrate(true, false, .1f);
+        vibrate(false, true, 1f, .01f);
+    }
+
+    protected void vibrate(bool leftHand, bool rightHand, float amplitude, float seconds = .1f)
     {
         StartCoroutine(_vibrate(leftHand, rightHand, amplitude, seconds));
     }
 
-    IEnumerator _vibrate(bool leftHand, bool rightHand, float amplitude, float seconds)
+    private IEnumerator _vibrate(bool leftHand, bool rightHand, float amplitude, float seconds)
     {
         float frequency = 1f;
 
