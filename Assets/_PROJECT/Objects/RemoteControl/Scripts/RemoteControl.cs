@@ -11,7 +11,15 @@ public class RemoteControl : MonoBehaviour
 
         // cache y-pos of mirror cameras in scene
         foreach (var cam in webcamObjects)
-            cam.maxY = cam.cameraHandle.transform.localPosition.y;
+        {
+            cam.maxPosY = cam.cameraPosHandle.transform.localPosition.y;
+
+            cam.maxRot = cam.cameraAngleHandle.transform.localRotation;
+
+            Vector3 eulers = cam.maxRot.eulerAngles;
+            eulers.x = cam.minAngleX;
+            cam.minRot = Quaternion.Euler(eulers);
+        }
 
         initAvatar();
     }
@@ -30,9 +38,11 @@ public class RemoteControl : MonoBehaviour
         {
             foreach (var cam in webcamObjects)
             {
-                var pos = cam.cameraHandle.transform.localPosition;
-                pos.y = Mathf.Lerp(cam.minY, cam.maxY, animMoveCameras.value);
-                cam.cameraHandle.transform.localPosition = pos;
+                Vector3 pos = cam.cameraPosHandle.transform.localPosition;
+                pos.y = Mathf.Lerp(cam.minPosY, cam.maxPosY, animMoveCameras.value);
+                cam.cameraPosHandle.transform.localPosition = pos;
+
+                cam.cameraAngleHandle.transform.localRotation = Quaternion.Slerp(cam.minRot, cam.maxRot, animMoveCameras.value);
             }
         }
     }
@@ -81,11 +91,15 @@ public class RemoteControl : MonoBehaviour
     [Serializable]
     public class WebCam
     {
-        public GameObject cameraHandle;
-        public float minY;
-
+        public GameObject cameraPosHandle;
+        public float minPosY;
         [System.NonSerialized]
-        public float maxY;
+        public float maxPosY;
+
+        public GameObject cameraAngleHandle;
+        public float minAngleX;
+        [System.NonSerialized]
+        public Quaternion minRot, maxRot;
     }
     public List<WebCam> webcamObjects;
 
