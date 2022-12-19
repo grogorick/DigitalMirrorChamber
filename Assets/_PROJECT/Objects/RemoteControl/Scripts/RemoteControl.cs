@@ -1,4 +1,5 @@
 using Oculus.Avatar2;
+using OVR;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class RemoteControl : MonoBehaviour
 {
     private void Start()
     {
+        initZoom();
         initAnims();
 
         // cache y-pos of mirror cameras in scene
@@ -43,6 +45,32 @@ public class RemoteControl : MonoBehaviour
                 cam.cameraPosHandle.transform.localPosition = pos;
 
                 cam.cameraAngleHandle.transform.localRotation = Quaternion.Slerp(cam.minRot, cam.maxRot, animMoveCameras.value);
+            }
+        }
+
+        // un-/mount zoom
+        if (animZoom.changed)
+        {
+            float zTrigger = Mathf.Lerp(minZoomTrigger, maxZoomTrigger, 1 - animZoom.value);
+            float zRemoteControl = Mathf.Lerp(minZoomRemoteControl, maxZoomRemoteControl, animZoom.value);
+            zoomTrigger.transform.localScale = new Vector3(zTrigger, zTrigger, zTrigger);
+            zoomOriginRemoteControl.transform.localScale = new Vector3(zRemoteControl, zRemoteControl, zRemoteControl);
+
+            if (animZoom.value == 0)
+            {
+                zoomOriginRemoteControl.SetActive(false);
+            }
+            if (animZoom.value == 1)
+            {
+                zoomTrigger.SetActive(false);
+            }
+        }
+        // unmount event
+        else if (animZoom.value == 1)
+        {
+            if ((transform.rotation * Vector3.up).y < .2f)
+            {
+                action_zoomUnmount();
             }
         }
     }
@@ -128,8 +156,37 @@ public class RemoteControl : MonoBehaviour
     }
 
 
+    [Header("Un-/Mount Zoom")]
+    public GameObject zoomTrigger;
+    public GameObject zoomOriginRemoteControl;
+    public float minZoomTrigger = 0;
+    public float maxZoomTrigger = 1;
+    public float minZoomRemoteControl = .01f;
+    private float maxZoomRemoteControl;
+    public float zoomSpeed = .01f;
+
+    private void initZoom()
+    {
+        maxZoomRemoteControl = zoomOriginRemoteControl.transform.localScale.x;
+    }
+
+    public void action_zoomMount()
+    {
+        animZoom.animate(1);
+        zoomOriginRemoteControl.SetActive(true);
+        customHandPoseLeft.enabled = true;
+    }
+    public void action_zoomUnmount()
+    {
+        animZoom.animate(0);
+        zoomTrigger.SetActive(true);
+        customHandPoseLeft.enabled = false;
+    }
+
+
     private Anim animRotatePlatform;
     private Anim animMoveCameras;
+    private Anim animZoom;
 
     private AnimationPool anims = new();
 
@@ -137,6 +194,7 @@ public class RemoteControl : MonoBehaviour
     {
         anims.Add(animRotatePlatform = new(0, rotationSpeed));
         anims.Add(animMoveCameras = new(1, moveCamerasSpeed));
+        anims.Add(animZoom = new(1, zoomSpeed));
     }
 
 
