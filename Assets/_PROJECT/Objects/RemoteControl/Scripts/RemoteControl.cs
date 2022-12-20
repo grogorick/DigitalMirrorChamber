@@ -80,8 +80,8 @@ public class RemoteControl : MonoBehaviour
 
     [Header("Avatar")]
     public SampleAvatarEntity avatarEntity;
-
     private OvrAvatarCustomHandPose customHandPoseLeft, customHandPoseRight;
+    private int approachTabletCount = 0;
 
     private void initAvatar()
     {
@@ -92,11 +92,13 @@ public class RemoteControl : MonoBehaviour
 
     public void action_approachTablet()
     {
-        customHandPoseRight.enabled = true;
+        if (approachTabletCount++ == 0)
+            customHandPoseRight.enabled = true;
     }
     public void action_leaveTablet()
     {
-        customHandPoseRight.enabled = false;
+        if (--approachTabletCount == 0)
+            customHandPoseRight.enabled = false;
     }
 
 
