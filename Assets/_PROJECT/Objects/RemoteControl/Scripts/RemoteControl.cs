@@ -178,12 +178,14 @@ public class RemoteControl : MonoBehaviour
         animZoom.animate(1);
         zoomOriginRemoteControl.SetActive(true);
         customHandPoseLeft.enabled = true;
+        Vibrate.now(false, true);
     }
     public void action_zoomUnmount()
     {
         animZoom.animate(0);
         zoomTrigger.SetActive(true);
         customHandPoseLeft.enabled = false;
+        Vibrate.now(false, true);
     }
 
 

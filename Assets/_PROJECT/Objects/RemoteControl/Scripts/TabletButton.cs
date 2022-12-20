@@ -57,25 +57,7 @@ public class TabletButton : TriggerAction
 
     protected void vibrate()
     {
-        vibrate(true, false, .1f);
-        vibrate(false, true, 1f, .01f);
-    }
-
-    protected void vibrate(bool leftHand, bool rightHand, float amplitude, float seconds = .1f)
-    {
-        StartCoroutine(_vibrate(leftHand, rightHand, amplitude, seconds));
-    }
-
-    private IEnumerator _vibrate(bool leftHand, bool rightHand, float amplitude, float seconds)
-    {
-        float frequency = 1f;
-
-        if (leftHand) OVRInput.SetControllerVibration(frequency, amplitude, OVRInput.Controller.LTouch);
-        if (rightHand) OVRInput.SetControllerVibration(frequency, amplitude, OVRInput.Controller.RTouch);
-
-        yield return new WaitForSeconds(seconds);
-
-        if (rightHand) OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
-        if (leftHand) OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
+        Vibrate.now(true, false, .1f);
+        Vibrate.now(false, true, 1f, .01f);
     }
 }
