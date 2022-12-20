@@ -144,15 +144,18 @@ public class RemoteControl : MonoBehaviour
 
     [Header("Sound System")]
     public AudioSource soundSource;
+    public GameObject soundSystemPowerOn;
 
     public void action_soundPlay()
     {
         soundSource.Play();
+        soundSystemPowerOn.SetActive(true);
     }
 
     public void action_soundPause()
     {
         soundSource.Pause();
+        soundSystemPowerOn.SetActive(false);
     }
 
 
