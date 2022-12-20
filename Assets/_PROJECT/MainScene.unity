@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 248452317}
   - component: {fileID: 248452316}
   m_Layer: 0
-  m_Name: ZoomTrigger
+  m_Name: ZoomTriggerRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -690,7 +690,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285396269}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0fad939194b61b44bbf97316b82b0c4, type: 3}
   m_Name: 
@@ -6103,10 +6103,12 @@ MonoBehaviour:
     minAngleX: -15.119
   soundSource: {fileID: 1582108034}
   soundSystemPowerOn: {fileID: 1081172970}
-  zoomTrigger: {fileID: 2130347799}
+  zoomTriggerRing: {fileID: 2130347799}
+  zoomTriggerFingertip: {fileID: 1703432780}
   zoomOriginRemoteControl: {fileID: 179831212}
   minZoomTrigger: 0
-  maxZoomTrigger: 1
+  maxZoomTriggerRing: 1
+  maxZoomTriggerFingertip: 0
   minZoomRemoteControl: 0.01
   zoomSpeed: 0.1
 --- !u!136 &5915197956396064157

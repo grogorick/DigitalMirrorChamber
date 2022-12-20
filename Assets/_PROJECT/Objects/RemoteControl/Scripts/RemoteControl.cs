@@ -51,9 +51,11 @@ public class RemoteControl : MonoBehaviour
         // un-/mount zoom
         if (animZoom.changed)
         {
-            float zTrigger = Mathf.Lerp(minZoomTrigger, maxZoomTrigger, 1 - animZoom.value);
+            float zTriggerRing = Mathf.Lerp(minZoomTrigger, maxZoomTriggerRing, 1 - animZoom.value);
+            float zTriggerFingertip = Mathf.Lerp(minZoomTrigger, maxZoomTriggerFingertip, 1 - animZoom.value);
             float zRemoteControl = Mathf.Lerp(minZoomRemoteControl, maxZoomRemoteControl, animZoom.value);
-            zoomTrigger.transform.localScale = new Vector3(zTrigger, zTrigger, zTrigger);
+            zoomTriggerRing.transform.localScale = new Vector3(zTriggerRing, zTriggerRing, zTriggerRing);
+            zoomTriggerFingertip.transform.localScale = new Vector3(zTriggerFingertip, zTriggerFingertip, zTriggerFingertip);
             zoomOriginRemoteControl.transform.localScale = new Vector3(zRemoteControl, zRemoteControl, zRemoteControl);
 
             if (animZoom.value == 0)
@@ -62,13 +64,13 @@ public class RemoteControl : MonoBehaviour
             }
             if (animZoom.value == 1)
             {
-                zoomTrigger.SetActive(false);
+                zoomTriggerRing.SetActive(false);
             }
         }
         // unmount event
         else if (animZoom.value == 1)
         {
-            if ((transform.rotation * Vector3.up).y < .2f)
+            if ((transform.rotation * Vector3.up).y < -.2f)
             {
                 action_zoomUnmount();
             }
@@ -160,16 +162,19 @@ public class RemoteControl : MonoBehaviour
 
 
     [Header("Un-/Mount Zoom")]
-    public GameObject zoomTrigger;
+    public GameObject zoomTriggerRing;
+    public GameObject zoomTriggerFingertip;
     public GameObject zoomOriginRemoteControl;
     public float minZoomTrigger = 0;
-    public float maxZoomTrigger = 1;
+    public float maxZoomTriggerRing = 1;
+    public float maxZoomTriggerFingertip;
     public float minZoomRemoteControl = .01f;
     private float maxZoomRemoteControl;
     public float zoomSpeed = .01f;
 
     private void initZoom()
     {
+        maxZoomTriggerFingertip = zoomTriggerFingertip.transform.localScale.x;
         maxZoomRemoteControl = zoomOriginRemoteControl.transform.localScale.x;
     }
 
@@ -183,7 +188,7 @@ public class RemoteControl : MonoBehaviour
     public void action_zoomUnmount()
     {
         animZoom.animate(0);
-        zoomTrigger.SetActive(true);
+        zoomTriggerRing.SetActive(true);
         customHandPoseLeft.enabled = false;
         Vibrate.now(false, true);
     }
