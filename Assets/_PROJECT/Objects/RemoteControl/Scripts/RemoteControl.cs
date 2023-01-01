@@ -8,8 +8,14 @@ public class RemoteControl : MonoBehaviour
 {
     private void Start()
     {
-        initZoom();
+        initAvatar();
         initAnims();
+        initZoom();
+
+        // start with unmounted tablet
+        customHandPoseLeft.enabled = false;
+        customHandPoseRight.enabled = false;
+        anim_zoomTablet(animZoom.value);
 
         // cache y-pos of mirror cameras in scene
         foreach (var cam in webcamObjects)
@@ -22,8 +28,6 @@ public class RemoteControl : MonoBehaviour
             eulers.x = cam.minAngleX;
             cam.minRot = Quaternion.Euler(eulers);
         }
-
-        initAvatar();
     }
 
     private void FixedUpdate()
@@ -33,13 +37,9 @@ public class RemoteControl : MonoBehaviour
         // run all animations
         anims.update();
 
-        if (animZoom.value == 1)
-        {
-            if ((transform.rotation * Vector3.up).y < -.2f)
-            {
-                action_zoomUnmount();
-            }
-        }
+        // left hand pointing down
+        if (animZoom.value == 1 && (transform.rotation * Vector3.up).y < -.2f)
+            action_zoomUnmount();
     }
 
 
@@ -55,7 +55,7 @@ public class RemoteControl : MonoBehaviour
     }
 
 
-    private DateTime waitUntil;
+    private DateTime waitUntil = DateTime.Now;
 
     public void action_approachTablet()
     {
@@ -84,17 +84,17 @@ public class RemoteControl : MonoBehaviour
         moveCamerasUpAndRotatePlatform(180);
     }
 
-    public void anim_rotatePlatform()
+    public void anim_rotatePlatform(float value)
     {
-        platformObject.transform.rotation = Quaternion.Euler(0, animRotatePlatform.value, 0);
+        platformObject.transform.rotation = Quaternion.Euler(0, value, 0);
     }
 
     public void moveCamerasUpAndRotatePlatform(float rotation)
     {
         float tmpCameraValue = animMoveCameras.value;
-        animMoveCameras.animate(1).thenOnce(() =>
+        animMoveCameras.animate(1).then(() =>
         {
-            animRotatePlatform.animate(rotation).thenOnce(() =>
+            animRotatePlatform.animate(rotation).then(() =>
             {
                 animMoveCameras.animate(tmpCameraValue);
             });
@@ -130,15 +130,15 @@ public class RemoteControl : MonoBehaviour
         animMoveCameras.animateDiff(-.25f);
     }
 
-    public void anim_moveCameras()
+    public void anim_moveCameras(float value)
     {
         foreach (var cam in webcamObjects)
         {
             Vector3 pos = cam.cameraPosHandle.transform.localPosition;
-            pos.y = Mathf.Lerp(cam.minPosY, cam.maxPosY, animMoveCameras.value);
+            pos.y = Mathf.Lerp(cam.minPosY, cam.maxPosY, value);
             cam.cameraPosHandle.transform.localPosition = pos;
 
-            cam.cameraAngleHandle.transform.localRotation = Quaternion.Slerp(cam.minRot, cam.maxRot, animMoveCameras.value);
+            cam.cameraAngleHandle.transform.localRotation = Quaternion.Slerp(cam.minRot, cam.maxRot, value);
         }
     }
 
@@ -193,11 +193,11 @@ public class RemoteControl : MonoBehaviour
         Vibrate.now(false, true);
     }
 
-    public void anim_zoomTablet()
+    public void anim_zoomTablet(float value)
     {
-        float zTriggerRing = Mathf.Lerp(minZoomTrigger, maxZoomTriggerRing, 1 - animZoom.value);
-        float zTriggerFingertip = Mathf.Lerp(minZoomTrigger, maxZoomTriggerFingertip, 1 - animZoom.value);
-        float zRemoteControl = Mathf.Lerp(minZoomRemoteControl, maxZoomRemoteControl, animZoom.value);
+        float zTriggerRing = Mathf.Lerp(minZoomTrigger, maxZoomTriggerRing, 1 - value);
+        float zTriggerFingertip = Mathf.Lerp(minZoomTrigger, maxZoomTriggerFingertip, 1 - value);
+        float zRemoteControl = Mathf.Lerp(minZoomRemoteControl, maxZoomRemoteControl, value);
         zoomTriggerRing.transform.localScale = new Vector3(zTriggerRing, zTriggerRing, zTriggerRing);
         zoomTriggerFingertip.transform.localScale = new Vector3(zTriggerFingertip, zTriggerFingertip, zTriggerFingertip);
         zoomOriginRemoteControl.transform.localScale = new Vector3(zRemoteControl, zRemoteControl, zRemoteControl);
@@ -223,7 +223,7 @@ public class RemoteControl : MonoBehaviour
     {
         anims.Add(animRotatePlatform = new(0, rotationSpeed, anim_rotatePlatform));
         anims.Add(animMoveCameras = new(1, moveCamerasSpeed, anim_moveCameras));
-        anims.Add(animZoom = new(1, zoomSpeed, anim_zoomTablet));
+        anims.Add(animZoom = new(0, zoomSpeed, anim_zoomTablet));
     }
 
 
