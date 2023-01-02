@@ -627,6 +627,8 @@ MonoBehaviour:
         m_CallState: 2
   triggerEvent: 0
   colliderTag: ButtonTrigger
+  debounce:
+    delay: 500
 --- !u!1 &285396269
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305611635}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.1}
+  m_LocalPosition: {x: 0, y: -0.03740001, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: -1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1828,8 +1830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1069085034}
   - component: {fileID: 5724847006936668022}
-  - component: {fileID: 4434189550870368183}
-  - component: {fileID: 4912077825948206972}
+  - component: {fileID: 5724847006936668023}
   - component: {fileID: 1955118792225004476}
   - component: {fileID: 1284055942643243271}
   m_Layer: 0
@@ -3855,6 +3856,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7715102382849255890, guid: b97ed1e17a97f0e4882f3dea9dd70ac4,
         type: 3}
+      propertyPath: debounce.delay
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715102382849255890, guid: b97ed1e17a97f0e4882f3dea9dd70ac4,
+        type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -4197,6 +4203,8 @@ MonoBehaviour:
         m_CallState: 2
   triggerEvent: 0
   colliderTag: 
+  debounce:
+    delay: 250
   releasedPosZ: -0.01
   pressed: 0
   otherButton: {fileID: 0}
@@ -4229,6 +4237,8 @@ MonoBehaviour:
         m_CallState: 2
   triggerEvent: 0
   colliderTag: 
+  debounce:
+    delay: 250
   releasedPosZ: -0.01
   pressed: 1
   buttonReleaseAction:
@@ -4275,6 +4285,8 @@ MonoBehaviour:
         m_CallState: 2
   triggerEvent: 0
   colliderTag: 
+  debounce:
+    delay: 250
   releasedPosZ: -0.01
   pressed: 1
   otherButton: {fileID: 894504913040551402}
@@ -5661,7 +5673,7 @@ PrefabInstance:
     - target: {fileID: 5820616090705581127, guid: fe86a746b48ebea45aa5c2b16de9b000,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5820616090705581127, guid: fe86a746b48ebea45aa5c2b16de9b000,
         type: 3}
@@ -5731,35 +5743,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4138557300301486546}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4434189550870368183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069085033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c5bad3522c98d74784637c2704d25ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  action:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5724847006936668022}
-        m_TargetAssemblyTypeName: RemoteControl, Assembly-CSharp
-        m_MethodName: action_approachTablet
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  triggerEvent: 0
-  colliderTag: ButtonTrigger
 --- !u!1001 &4777980480911345890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5844,35 +5827,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78eae4eb6ecbff14293fca1c50b11086, type: 3}
---- !u!114 &4912077825948206972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069085033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c5bad3522c98d74784637c2704d25ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  action:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5724847006936668022}
-        m_TargetAssemblyTypeName: RemoteControl, Assembly-CSharp
-        m_MethodName: action_leaveTablet
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  triggerEvent: 1
-  colliderTag: ButtonTrigger
 --- !u!54 &5037564346224818559
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6111,6 +6065,66 @@ MonoBehaviour:
   maxZoomTriggerFingertip: 0
   minZoomRemoteControl: 0.01
   zoomSpeed: 0.1
+--- !u!114 &5724847006936668023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069085033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c93acc6270268f478c19d7c67404165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5724847006936668022}
+        m_TargetAssemblyTypeName: RemoteControl, Assembly-CSharp
+        m_MethodName: action_approachTablet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  stayAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5724847006936668022}
+        m_TargetAssemblyTypeName: RemoteControl, Assembly-CSharp
+        m_MethodName: action_approachTablet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  leaveAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RemoteControl, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  colliderTag: ButtonTrigger
+  debounce:
+    delay: 0
 --- !u!136 &5915197956396064157
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7374,6 +7388,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715102382849255890, guid: b97ed1e17a97f0e4882f3dea9dd70ac4,
+        type: 3}
+      propertyPath: debounce.delay
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7715102382849255890, guid: b97ed1e17a97f0e4882f3dea9dd70ac4,
         type: 3}

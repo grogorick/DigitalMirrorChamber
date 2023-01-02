@@ -1,6 +1,6 @@
 using Oculus.Avatar2;
-using OVR;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +28,8 @@ public class RemoteControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        leaveTabletAfterDelay();
+
         // run all animations
         anims.update();
 
@@ -81,7 +83,6 @@ public class RemoteControl : MonoBehaviour
     [Header("Avatar")]
     public SampleAvatarEntity avatarEntity;
     private OvrAvatarCustomHandPose customHandPoseLeft, customHandPoseRight;
-    private int approachTabletCount = 0;
 
     private void initAvatar()
     {
@@ -90,14 +91,18 @@ public class RemoteControl : MonoBehaviour
         customHandPoseRight = customHandPoses[1];
     }
 
+
+    private DateTime waitUntil;
+
     public void action_approachTablet()
     {
-        if (approachTabletCount++ == 0)
+        if (!customHandPoseRight.enabled)
             customHandPoseRight.enabled = true;
+        waitUntil = DateTime.Now.AddSeconds(.5);
     }
-    public void action_leaveTablet()
+    private void leaveTabletAfterDelay()
     {
-        if (--approachTabletCount == 0)
+        if (customHandPoseRight.enabled && waitUntil < DateTime.Now)
             customHandPoseRight.enabled = false;
     }
 
@@ -235,53 +240,4 @@ public class RemoteControl : MonoBehaviour
     //    }
     //    transform.rotation = Quaternion.Euler(0, rotation, 0);
     //}
-}
-
-
-class AnimationPool : List<Anim>
-{
-    public void update()
-    {
-        foreach (var anim in this)
-            anim.step();
-    }
-}
-
-class Anim
-{
-    public float speed;
-    public bool changed { get; private set; } = false;
-    public float value { get; private set; }
-
-    private float alpha = 1, start = 0, end = 0;
-
-    public Anim(float startValue, float speed, float? endValue = null)
-    {
-        this.speed = speed;
-        value = startValue;
-
-        if (endValue != null)
-            animate(endValue.Value);
-    }
-
-    public void animate(float endValue)
-    {
-        start = value;
-        end = endValue;
-        alpha = 0;
-    }
-
-    public void animateDiff(float diffValue, float clampMin = 0, float clampMax = 1)
-    {
-        animate(Mathf.Clamp(value + diffValue, clampMin, clampMax));
-    }
-
-    public void step()
-    {
-        if (changed = (alpha != 1))
-        {
-            alpha = Mathf.Min(1, alpha + speed);
-            value = Mathf.SmoothStep(start, end, alpha);
-        }
-    }
 }
