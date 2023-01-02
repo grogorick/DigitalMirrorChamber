@@ -3,6 +3,7 @@ using UnityEngine;
 
 class AnimationPool : List<Anim>
 {
+    // To be called in any Update() or FixedUpdate() call.
     public void update()
     {
         foreach (var anim in this)
@@ -19,23 +20,27 @@ class Anim
     private float alpha = 1, start = 0, end = 0;
 
     public delegate void Callback();
+    private Callback onStep;
     private Callback onFinished;
+    private Callback onFinishedOnce;
 
-    public Anim(float startValue, float speed, float? endValue = null)
+    public Anim(float startValue, float speed, Callback onStep = null, Callback onFinished = null)
     {
         this.speed = speed;
         value = startValue;
 
-        if (endValue != null)
-            animate(endValue.Value);
+        this.onStep = onStep;
+        this.onFinished = onFinished;
     }
 
     public Anim animate(float endValue)
     {
-        start = value;
-        end = endValue;
-        alpha = 0;
-
+        if (value != endValue)
+        {
+            start = value;
+            end = endValue;
+            alpha = 0;
+        }
         return this;
     }
 
@@ -43,12 +48,18 @@ class Anim
     {
         return animate(Mathf.Clamp(value + diffValue, clampMin, clampMax));
     }
-
+    
     public void then(Callback onFinishedCallback)
     {
         onFinished = onFinishedCallback;
     }
+    
+    public void thenOnce(Callback onFinishedOnceCallback)
+    {
+        onFinishedOnce = onFinishedOnceCallback;
+    }
 
+    // To be called in any Update() or FixedUpdate() call, when not used with AnimationPool.
     public void step()
     {
         if (changed = (alpha != 1))
@@ -56,11 +67,21 @@ class Anim
             alpha = Mathf.Min(1, alpha + speed);
             value = Mathf.SmoothStep(start, end, alpha);
 
-            if (onFinished != null && alpha == 1)
+            if (onStep != null)
+                onStep();
+
+            if (alpha == 1)
             {
-                Callback tmp = onFinished;
-                onFinished = null;
-                tmp();
+                if (onFinishedOnce != null)
+                {
+                    Callback tmp = onFinishedOnce;
+                    onFinishedOnce = null;
+                    tmp();
+                }
+                else
+                {
+                    onFinished?.Invoke();
+                }
             }
         }
     }

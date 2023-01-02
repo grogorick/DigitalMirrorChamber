@@ -33,44 +33,7 @@ public class RemoteControl : MonoBehaviour
         // run all animations
         anims.update();
 
-        // platform rotation
-        if (animRotatePlatform.changed)
-            platformObject.transform.rotation = Quaternion.Euler(0, animRotatePlatform.value, 0);
-
-        // webcam movement
-        if (animMoveCameras.changed)
-        {
-            foreach (var cam in webcamObjects)
-            {
-                Vector3 pos = cam.cameraPosHandle.transform.localPosition;
-                pos.y = Mathf.Lerp(cam.minPosY, cam.maxPosY, animMoveCameras.value);
-                cam.cameraPosHandle.transform.localPosition = pos;
-
-                cam.cameraAngleHandle.transform.localRotation = Quaternion.Slerp(cam.minRot, cam.maxRot, animMoveCameras.value);
-            }
-        }
-
-        // un-/mount zoom
-        if (animZoom.changed)
-        {
-            float zTriggerRing = Mathf.Lerp(minZoomTrigger, maxZoomTriggerRing, 1 - animZoom.value);
-            float zTriggerFingertip = Mathf.Lerp(minZoomTrigger, maxZoomTriggerFingertip, 1 - animZoom.value);
-            float zRemoteControl = Mathf.Lerp(minZoomRemoteControl, maxZoomRemoteControl, animZoom.value);
-            zoomTriggerRing.transform.localScale = new Vector3(zTriggerRing, zTriggerRing, zTriggerRing);
-            zoomTriggerFingertip.transform.localScale = new Vector3(zTriggerFingertip, zTriggerFingertip, zTriggerFingertip);
-            zoomOriginRemoteControl.transform.localScale = new Vector3(zRemoteControl, zRemoteControl, zRemoteControl);
-
-            if (animZoom.value == 0)
-            {
-                zoomOriginRemoteControl.SetActive(false);
-            }
-            if (animZoom.value == 1)
-            {
-                zoomTriggerRing.SetActive(false);
-            }
-        }
-        // unmount event
-        else if (animZoom.value == 1)
+        if (animZoom.value == 1)
         {
             if ((transform.rotation * Vector3.up).y < -.2f)
             {
@@ -113,12 +76,29 @@ public class RemoteControl : MonoBehaviour
 
     public void action_rotateToDisplayWall()
     {
-        animRotatePlatform.animate(0);
+        moveCamerasUpAndRotatePlatform(0);
     }
 
     public void action_rotateToMirrorAvatar()
     {
-        animRotatePlatform.animate(180);
+        moveCamerasUpAndRotatePlatform(180);
+    }
+
+    public void anim_rotatePlatform()
+    {
+        platformObject.transform.rotation = Quaternion.Euler(0, animRotatePlatform.value, 0);
+    }
+
+    public void moveCamerasUpAndRotatePlatform(float rotation)
+    {
+        float tmpCameraValue = animMoveCameras.value;
+        animMoveCameras.animate(1).thenOnce(() =>
+        {
+            animRotatePlatform.animate(rotation).thenOnce(() =>
+            {
+                animMoveCameras.animate(tmpCameraValue);
+            });
+        });
     }
 
 
@@ -148,6 +128,18 @@ public class RemoteControl : MonoBehaviour
     public void action_moveCamerasDown()
     {
         animMoveCameras.animateDiff(-.25f);
+    }
+
+    public void anim_moveCameras()
+    {
+        foreach (var cam in webcamObjects)
+        {
+            Vector3 pos = cam.cameraPosHandle.transform.localPosition;
+            pos.y = Mathf.Lerp(cam.minPosY, cam.maxPosY, animMoveCameras.value);
+            cam.cameraPosHandle.transform.localPosition = pos;
+
+            cam.cameraAngleHandle.transform.localRotation = Quaternion.Slerp(cam.minRot, cam.maxRot, animMoveCameras.value);
+        }
     }
 
 
@@ -192,12 +184,32 @@ public class RemoteControl : MonoBehaviour
         customHandPoseLeft.enabled = true;
         Vibrate.now(false, true);
     }
+
     public void action_zoomUnmount()
     {
         animZoom.animate(0);
         zoomTriggerRing.SetActive(true);
         customHandPoseLeft.enabled = false;
         Vibrate.now(false, true);
+    }
+
+    public void anim_zoomTablet()
+    {
+        float zTriggerRing = Mathf.Lerp(minZoomTrigger, maxZoomTriggerRing, 1 - animZoom.value);
+        float zTriggerFingertip = Mathf.Lerp(minZoomTrigger, maxZoomTriggerFingertip, 1 - animZoom.value);
+        float zRemoteControl = Mathf.Lerp(minZoomRemoteControl, maxZoomRemoteControl, animZoom.value);
+        zoomTriggerRing.transform.localScale = new Vector3(zTriggerRing, zTriggerRing, zTriggerRing);
+        zoomTriggerFingertip.transform.localScale = new Vector3(zTriggerFingertip, zTriggerFingertip, zTriggerFingertip);
+        zoomOriginRemoteControl.transform.localScale = new Vector3(zRemoteControl, zRemoteControl, zRemoteControl);
+
+        if (animZoom.value == 0)
+        {
+            zoomOriginRemoteControl.SetActive(false);
+        }
+        if (animZoom.value == 1)
+        {
+            zoomTriggerRing.SetActive(false);
+        }
     }
 
 
@@ -209,9 +221,9 @@ public class RemoteControl : MonoBehaviour
 
     private void initAnims()
     {
-        anims.Add(animRotatePlatform = new(0, rotationSpeed));
-        anims.Add(animMoveCameras = new(1, moveCamerasSpeed));
-        anims.Add(animZoom = new(1, zoomSpeed));
+        anims.Add(animRotatePlatform = new(0, rotationSpeed, anim_rotatePlatform));
+        anims.Add(animMoveCameras = new(1, moveCamerasSpeed, anim_moveCameras));
+        anims.Add(animZoom = new(1, zoomSpeed, anim_zoomTablet));
     }
 
 
