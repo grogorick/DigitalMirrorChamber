@@ -6,6 +6,13 @@
 /[Aa]ssets/*
 !/[Aa]ssets/_PROJECT/
 
+# Also include AndroidManifest.xml required for Quest build
+!/[Aa]ssets/Plugins/
+/[Aa]ssets/Plugins/*
+!/[Aa]ssets/Plugins/Android/
+/[Aa]ssets/Plugins/Android/*
+!/[Aa]ssets/Plugins/Android/AndroidManifest.xml
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
