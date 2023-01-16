@@ -17,24 +17,24 @@ public class TabletButtonToggleOther : TabletButton
             if (otherButton.otherButton != this)
             {
                 if (otherButton.otherButton == null)
-                    Debug.Log("### MY | TabletButtonToggleOther | Button `" + name + "`.otherButton set to `" + otherButton.name + "`, which does not reference back. Doing so now");
+                    Debug.Log("### MY | TabletButtonToggleOther | `" + name + "` | `otherButton` set to `" + otherButton.name + "`, which does not reference back. Doing so now");
                 else
-                    Debug.LogWarning("### MY | TabletButtonToggleOther | Button `" + name + ".otherButton` set to `" + otherButton.name + "`, instead of this button. Doing so now");
+                    Debug.LogWarning("### MY | TabletButtonToggleOther | `" + name + " | `otherButton` set to `" + otherButton.name + "`, instead of this button. Doing so now");
                 otherButton.otherButton = this;
             }
             if (otherButton.pressed == pressed)
             {
-                Debug.LogWarning("### MY | TabletButtonToggleOther | Buttons `" + name + "` and `" + otherButton.name + "` with identical initial pressed state. Fixing this");
+                Debug.LogWarning("### MY | TabletButtonToggleOther | `" + name + "` | This and `" + otherButton.name + "` with identical initial pressed state. Inverting the other");
                 otherButton.setPressed(!otherButton.pressed);
             }
         }
         else
-            Debug.LogWarning("### MY | TabletButtonToggleOther | Buttons `" + name + ".otherButton` not set");
+            Debug.LogWarning("### MY | TabletButtonToggleOther | `" + name + " | `otherButton` not set");
     }
 
     protected override void press()
     {
-        Debug.Log("### MY | TabletButtonToggleOther | Button `" + name + "` press (" + pressed + ")");
+        Debug.Log("### MY | TabletButtonToggleOther | `" + name + "` | press (" + pressed + ")");
 
         if (otherButton != null)
         {

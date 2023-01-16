@@ -22,22 +22,22 @@ public class TabletButtonToggle : TabletButton
         {
             if (action != null)
             {
-                Debug.Log("### MY | TabletButtonToggle | Button `" + name + "` doAction | action");
+                Debug.Log("### MY | TabletButtonToggle | `" + name + "` | doAction | action");
                 action.Invoke();
             }
             else
-                Debug.Log("### MY | TabletButtonToggle | Button `" + name + "` doAction | no action");
+                Debug.Log("### MY | TabletButtonToggle | `" + name + "` | doAction | no action");
         }
         else if (buttonReleaseAction != null)
         {
-            Debug.Log("### MY | TabletButtonToggle | Button `" + name + "` doAction | buttonReleaseAction");
+            Debug.Log("### MY | TabletButtonToggle | `" + name + "` | doAction | buttonReleaseAction");
             buttonReleaseAction.Invoke();
         }
     }
 
     protected override void press()
     {
-        Debug.Log("### MY | TabletButtonToggle | Button `" + name + "` press (" + pressed + ")");
+        Debug.Log("### MY | TabletButtonToggle | `" + name + "` | press (" + pressed + ")");
 
         setPressed(!pressed);
 

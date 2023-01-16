@@ -17,14 +17,14 @@ public class TabletButton : TriggerAction
 
     protected override void doAction()
     {
-        Debug.Log("### MY | TabletButton | Button `" + name + "` doAction");
+        Debug.Log("### MY | TabletButton | `" + name + "` | doAction");
         press();
         base.doAction();
     }
 
     protected virtual void press()
     {
-        Debug.Log("### MY | TabletButton | Button `" + name + "` press (" + pressed + ")");
+        Debug.Log("### MY | TabletButton | `" + name + "` | press (" + pressed + ")");
 
         setPressed(true);
         releaseBtnAfter();
@@ -34,7 +34,7 @@ public class TabletButton : TriggerAction
 
     protected void setPressed(bool press)
     {
-        Debug.Log("### MY | TabletButton | Button `" + name + "` setPressed (" + press + ")");
+        Debug.Log("### MY | TabletButton | `" + name + "` | setPressed (" + press + ")");
 
         pressed = press;
         Vector3 pos = transform.localPosition;

@@ -16,7 +16,7 @@ public class TriggerActions : MonoBehaviour
     {
         if (enterAction.GetPersistentEventCount() > 0 && debounce.check())
         {
-            Debug.Log("### MY | TriggerActions | Enter `" + name + "`");
+            Debug.Log("### MY | TriggerActions | `" + name + "` | Enter");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 enterAction.Invoke();
@@ -30,7 +30,7 @@ public class TriggerActions : MonoBehaviour
     {
         if (stayAction.GetPersistentEventCount() > 0 && debounce.check())
         {
-            Debug.Log("### MY | TriggerActions | Stay `" + name + "`");
+            Debug.Log("### MY | TriggerActions | `" + name + "` | Stay");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 stayAction.Invoke();
@@ -41,7 +41,7 @@ public class TriggerActions : MonoBehaviour
     {
         if (leaveAction.GetPersistentEventCount() > 0)
         {
-            Debug.Log("### MY | TriggerActions | Leave `" + name + "`");
+            Debug.Log("### MY | TriggerActions | `" + name + "` | Leave");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 leaveAction.Invoke();

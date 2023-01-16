@@ -17,7 +17,7 @@ public class TriggerAction : MonoBehaviour
     {
         if (triggerEvent == TriggerEvent.enter && debounce.check())
         {
-            Debug.Log("### MY | TriggerAction | Enter `" + name + "`");
+            Debug.Log("### MY | TriggerAction | `" + name + "` | Enter");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 doAction();
@@ -28,7 +28,7 @@ public class TriggerAction : MonoBehaviour
     {
         if (triggerEvent == TriggerEvent.stay && debounce.check())
         {
-            Debug.Log("### MY | TriggerAction | Stay `" + name + "`");
+            Debug.Log("### MY | TriggerAction | `" + name + "` | Stay");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 doAction();
@@ -39,7 +39,7 @@ public class TriggerAction : MonoBehaviour
     {
         if (triggerEvent == TriggerEvent.leave && debounce.check())
         {
-            Debug.Log("### MY | TriggerAction | Leave `" + name + "`");
+            Debug.Log("### MY | TriggerAction | `" + name + "` | Leave");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 doAction();

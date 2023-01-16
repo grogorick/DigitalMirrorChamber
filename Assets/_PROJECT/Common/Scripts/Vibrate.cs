@@ -5,7 +5,7 @@ public class Vibrate : MonoBehaviour
 {
     static public void now(bool leftHand, bool rightHand, float amplitude = 1f, float seconds = .1f)
     {
-        getOrFindInstanceInScene()._vibrate(leftHand, rightHand, amplitude, seconds);
+        getOrFindInstanceInScene().vibrate(leftHand, rightHand, amplitude, seconds);
     }
 
 
@@ -14,16 +14,16 @@ public class Vibrate : MonoBehaviour
     private static Vibrate getOrFindInstanceInScene()
     {
         if (instance == null)
-            return (instance = GameObject.FindObjectOfType<Vibrate>());
+            return (instance = FindObjectOfType<Vibrate>());
         return instance;
     }
 
-    private void _vibrate(bool leftHand, bool rightHand, float amplitude = 1f, float seconds = .1f)
+    private void vibrate(bool leftHand, bool rightHand, float amplitude = 1f, float seconds = .1f)
     {
-        StartCoroutine(__vibrate(leftHand, rightHand, amplitude, seconds));
+        StartCoroutine(_vibrate(leftHand, rightHand, amplitude, seconds));
     }
 
-    private IEnumerator __vibrate(bool leftHand, bool rightHand, float amplitude, float seconds)
+    private IEnumerator _vibrate(bool leftHand, bool rightHand, float amplitude, float seconds)
     {
         float frequency = 1f;
 
