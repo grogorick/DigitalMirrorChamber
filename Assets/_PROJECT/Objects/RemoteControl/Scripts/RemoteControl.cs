@@ -8,9 +8,11 @@ public class RemoteControl : MonoBehaviour
 {
     private void Start()
     {
-        initAvatar();
-        initAnims();
+        initAvatarHandPoses();
+        initAvatarEditor();
         initZoom();
+
+        initAnims();
 
         // start with unmounted tablet
         customHandPoseLeft.enabled = false;
@@ -37,19 +39,20 @@ public class RemoteControl : MonoBehaviour
         // run all animations
         anims.update();
 
-        // left hand pointing down
-        if (animZoom.value == 1 && (transform.rotation * Vector3.up).y < -.2f)
-            action_zoomUnmount();
+        zoomUnmountWhenLeftHandDown();
     }
 
 
-    [Header("Avatar")]
-    public SampleAvatarEntity avatarEntity;
+    [Header("Avatars")]
+    public Avatar mainAvatar;
+    public Avatar mirrorAvatar;
+    public AvatarChangeHandler avatarChangeHandler;
     private OvrAvatarCustomHandPose customHandPoseLeft, customHandPoseRight;
 
-    private void initAvatar()
+    private void initAvatarHandPoses()
     {
-        OvrAvatarCustomHandPose[] customHandPoses = avatarEntity.GetComponents<OvrAvatarCustomHandPose>();
+        Debug.Log("### MY | Remote Control | Init hand poses");
+        OvrAvatarCustomHandPose[] customHandPoses = mainAvatar.GetComponents<OvrAvatarCustomHandPose>();
         customHandPoseLeft = customHandPoses[0];
         customHandPoseRight = customHandPoses[1];
     }
@@ -59,13 +62,14 @@ public class RemoteControl : MonoBehaviour
 
     public void action_approachTablet()
     {
-        if (!customHandPoseRight.enabled)
+        if (customHandPoseRight != null && !customHandPoseRight.enabled)
             customHandPoseRight.enabled = true;
         waitUntil = DateTime.Now.AddSeconds(.5);
     }
+
     private void leaveTabletAfterDelay()
     {
-        if (customHandPoseRight.enabled && waitUntil < DateTime.Now)
+        if (customHandPoseRight != null && customHandPoseRight.enabled && waitUntil < DateTime.Now)
             customHandPoseRight.enabled = false;
     }
 
@@ -170,27 +174,48 @@ public class RemoteControl : MonoBehaviour
     public float minZoomRemoteControl = .01f;
     private float maxZoomRemoteControl;
     public float zoomSpeed = .01f;
+    private TabletButton[] buttons;
 
     private void initZoom()
     {
+        Debug.Log("### MY | Remote Control | Init tablet zoom");
         maxZoomTriggerFingertip = zoomTriggerFingertip.transform.localScale.x;
         maxZoomRemoteControl = zoomOriginRemoteControl.transform.localScale.x;
+
+        buttons = GetComponentsInChildren<TabletButton>();
     }
 
     public void action_zoomMount()
     {
-        animZoom.animate(1);
         zoomOriginRemoteControl.SetActive(true);
         customHandPoseLeft.enabled = true;
         Vibrate.now(false, true);
+        animZoom.animate(1).then(() => StartCoroutine(_enableTabletButtonsAfterDelay()));
+    }
+    private IEnumerator _enableTabletButtonsAfterDelay(float delaySeconds = 2)
+    {
+        yield return new WaitForSeconds(delaySeconds);
+        foreach (TabletButton button in buttons)
+        {
+            button.enabled = true;
+        }
     }
 
-    public void action_zoomUnmount()
+    public void zoomUnmountWhenLeftHandDown()
     {
-        animZoom.animate(0);
-        zoomTriggerRing.SetActive(true);
-        customHandPoseLeft.enabled = false;
-        Vibrate.now(false, true);
+        // left hand pointing down
+        if (animZoom.value == 1 && (transform.rotation * Vector3.up).y < -.2f)
+        {
+            Debug.Log("### MY | Remote Control | Hand down detected -> tablet zoom unmount");
+            zoomTriggerRing.SetActive(true);
+            customHandPoseLeft.enabled = false;
+            customHandPoseRight.enabled = false;
+            Vibrate.now(false, true);
+            animZoom.animate(0);
+
+            foreach (TabletButton button in buttons)
+                button.enabled = false;
+        }
     }
 
     public void anim_zoomTablet(float value)
@@ -213,6 +238,69 @@ public class RemoteControl : MonoBehaviour
     }
 
 
+    void initAvatarEditor()
+    {
+        Debug.Log("### MY | Remote Control | Init avatar editor");
+        OVRManager.InputFocusAcquired += inputFocusAcquired;
+        avatarChangeHandler.onAvatarReplaceEvent.AddListener(onAvatarReplace);
+    }
+
+    public void action_startAvatarEditor()
+    {
+        Debug.Log("### MY | Remote Control | Open avatar editor");
+#if UNITY_EDITOR
+        avatarChangeHandler.onAvatarChangeDetected(mainAvatar);
+#else
+        AvatarEditorDeeplink.LaunchAvatarEditor();
+#endif
+    }
+    public bool loadAvatarEditor = false;
+    public bool showTablet = false;
+    private void Update()
+    {
+        if (loadAvatarEditor)
+        {
+            loadAvatarEditor = false;
+            action_startAvatarEditor();
+        }
+        if (showTablet)
+        {
+            showTablet = false;
+            action_zoomMount();
+        }
+    }
+
+    private void inputFocusAcquired() // return from avatar editor
+    {
+        Debug.Log("### MY | Remote Control | Focus acquired -> check for avatar changes");
+        mainAvatar.checkForChanges();
+    }
+    //private void OnApplicationPause(bool pause)
+    //{
+    //    if (!pause) // User returned to app, may have edited their avatar
+    //    {
+    //        Debug.Log("### MY | Remote Control | Resume");
+    //        //avatarEntity.checkForChanges();
+    //    }
+    //}
+
+    private void onAvatarReplace(Avatar oldAvatar, Avatar newAvatar)
+    {
+        mainAvatar = newAvatar;
+        initAvatarHandPoses();
+    }
+
+
+    public void action_quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+
     private Anim animRotatePlatform;
     private Anim animMoveCameras;
     private Anim animZoom;
@@ -221,35 +309,9 @@ public class RemoteControl : MonoBehaviour
 
     private void initAnims()
     {
+        Debug.Log("### MY | Remote Control | Init animations");
         anims.Add(animRotatePlatform = new(0, rotationSpeed, anim_rotatePlatform));
         anims.Add(animMoveCameras = new(1, moveCamerasSpeed, anim_moveCameras));
         anims.Add(animZoom = new(0, zoomSpeed, anim_zoomTablet));
     }
-
-
-    //float source = 0;
-    //float target = 0;
-    //float rotation = 0;
-    //float speed = 1;
-
-    //void FixedUpdate()
-    //{
-    //    if (OVRInput.GetActiveController() != OVRInput.Controller.Hands)
-    //    {
-    //        //if (Mathf.Abs(rotation) < rotationStartThresh)
-    //        {
-    //            OVRInput.GetDown(OVRInput.Button.PrimaryThumbstick);
-    //            Vector2 thumbstick = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
-    //            if (thumbstick.x != 0)
-    //            {
-    //                source = (rotation += thumbstick.x);
-    //            }
-    //        }
-    //        //else
-    //        {
-    //            rotation += .1f * (target - rotation);
-    //        }
-    //    }
-    //    transform.rotation = Quaternion.Euler(0, rotation, 0);
-    //}
 }
