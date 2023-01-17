@@ -22,24 +22,20 @@ public class AvatarChangeHandler : MonoBehaviour
         avatar.gameObject.SetActive(true);
     }
 
-    void Start()
-    {
-        avatar.onAvatarChangeDetectedEvent.AddListener(onAvatarChangeDetected);
-    }
-
-    public void onAvatarChangeDetected(Avatar changedAvatar)
+    public void reloadAvatar()
     {
         Debug.Log("### MY | AvatarChangeHandler | Clone and replace changed avatar");
 
-        avatar = Instantiate(avatarCopy, changedAvatar.gameObject.transform.parent);
-        avatar.gameObject.name = changedAvatar.gameObject.name;
-        changedAvatar.gameObject.SetActive(false);
-        changedAvatar.gameObject.name += " (old)";
+        Avatar oldAvatar = avatar;
+        avatar = Instantiate(avatarCopy, oldAvatar.gameObject.transform.parent);
+        avatar.gameObject.name = oldAvatar.gameObject.name;
+        oldAvatar.gameObject.SetActive(false);
+        oldAvatar.gameObject.name += " (old)";
         avatar.gameObject.SetActive(true);
 
-        onAvatarReplaceEvent.Invoke(changedAvatar, avatar);
+        onAvatarReplaceEvent.Invoke(oldAvatar, avatar);
 
-        Destroy(changedAvatar.gameObject);
+        Destroy(oldAvatar.gameObject);
 
         mirrorAvatar.reload();
     }

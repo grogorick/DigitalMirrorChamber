@@ -238,6 +238,8 @@ public class RemoteControl : MonoBehaviour
     }
 
 
+    private bool avatarEditorStarted = false;
+
     void initAvatarEditor()
     {
         Debug.Log("### MY | Remote Control | Init avatar editor");
@@ -245,35 +247,44 @@ public class RemoteControl : MonoBehaviour
         avatarChangeHandler.onAvatarReplaceEvent.AddListener(onAvatarReplace);
     }
 
+#if UNITY_EDITOR
+    public bool _loadAvatarEditor = false;
+    public bool _showTablet = false;
+    private void Update()
+    {
+        if (_loadAvatarEditor)
+        {
+            _loadAvatarEditor = false;
+            action_startAvatarEditor();
+        }
+        if (_showTablet)
+        {
+            _showTablet = false;
+            action_zoomMount();
+        }
+    }
+#endif
+
     public void action_startAvatarEditor()
     {
         Debug.Log("### MY | Remote Control | Open avatar editor");
+        avatarEditorStarted = true;
 #if UNITY_EDITOR
-        avatarChangeHandler.onAvatarChangeDetected(mainAvatar);
+        inputFocusAcquired();
 #else
         AvatarEditorDeeplink.LaunchAvatarEditor();
 #endif
     }
-    public bool loadAvatarEditor = false;
-    public bool showTablet = false;
-    private void Update()
-    {
-        if (loadAvatarEditor)
-        {
-            loadAvatarEditor = false;
-            action_startAvatarEditor();
-        }
-        if (showTablet)
-        {
-            showTablet = false;
-            action_zoomMount();
-        }
-    }
 
     private void inputFocusAcquired() // return from avatar editor
     {
-        Debug.Log("### MY | Remote Control | Focus acquired -> check for avatar changes");
-        mainAvatar.checkForChanges();
+        Debug.Log("### MY | Remote Control | Focus acquired");
+        if (avatarEditorStarted)
+        {
+            Debug.Log("### MY | Remote Control | Resumed from avatar editor -> Reload avatar");
+            avatarEditorStarted = false;
+            avatarChangeHandler.reloadAvatar();
+        }
     }
     //private void OnApplicationPause(bool pause)
     //{
