@@ -55,31 +55,31 @@ public class AttachToAvatar : MonoBehaviour
             avatarChangeHandler = obj.GetComponent<AvatarChangeHandler>();
         }
 
+        avatar.OnDefaultAvatarLoadedEvent.AddListener(onAvatarLoaded);
+        avatar.OnFastLoadAvatarLoadedEvent.AddListener(onAvatarLoaded);
+        avatar.OnUserAvatarLoadedEvent.AddListener(onAvatarLoaded);
+
         avatarChangeHandler.onAvatarReplaceEvent.AddListener(onAvatarReplace);
-        prepareAvatarLoading();
     }
 
     public void onAvatarReplace(Avatar oldAvatar, Avatar newAvatar)
     {
-        Debug.Log("### MY | AttachToAvatar | `" + name + "` | Prepare for replaced avatar");
+        Debug.Log("### MY | AttachToAvatar | `" + name + "` | Avatar replaced");
         transform.parent = (avatar = newAvatar).gameObject.transform;
-        prepareAvatarLoading();
-    }
-
-    private void prepareAvatarLoading()
-    {
-        avatar.OnDefaultAvatarLoadedEvent.AddListener(onAvatarLoaded);
-        avatar.OnFastLoadAvatarLoadedEvent.AddListener(onAvatarLoaded);
-        avatar.OnUserAvatarLoadedEvent.AddListener(onAvatarLoaded);
+        attachJoint = null;
+        onAvatarLoaded(newAvatar);
     }
 
     public void onAvatarLoaded(OvrAvatarEntity ae)
     {
         string msg = "### MY | AttachToAvatar | `" + name + "` | Avatar loaded (" + ae.CurrentState + ") | ";
-        if (attachJoint == null && (attachJoint = findAvatarJoint(attachJointName)))
+        if (attachJoint == null)
         {
             Debug.Log(msg + "Try to find avatar joint `" + attachJointName + "`");
-            attachTo(attachJoint, mode);
+            if ((attachJoint = findAvatarJoint(attachJointName)) != null)
+            {
+                attachTo(attachJoint, mode);
+            }
         }
         Debug.Log(msg + "Already attached in previous load event. Skip this");
     }

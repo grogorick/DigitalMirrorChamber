@@ -6,7 +6,8 @@ using UnityEngine.Events;
 public class AvatarChangeHandler : MonoBehaviour
 {
     public Avatar avatar, mirrorAvatar;
-    private Avatar avatarCopy;
+    private Avatar avatarCopy, oldAvatar, newAvatar;
+    private GameObject newAvatarCamera;
 
     public UnityEvent<Avatar, Avatar> onAvatarReplaceEvent;
 
@@ -15,6 +16,7 @@ public class AvatarChangeHandler : MonoBehaviour
         if (avatar.gameObject.activeSelf)
         {
             Debug.LogError("### MY | AvatarChangeHandler | Avatar already `active`. Must be deactivated on startup");
+            avatar = null;
             return;
         }
         Debug.Log("### MY | AvatarChangeHandler | Copy avatar");
@@ -24,19 +26,37 @@ public class AvatarChangeHandler : MonoBehaviour
 
     public void reloadAvatar()
     {
-        Debug.Log("### MY | AvatarChangeHandler | Clone and replace changed avatar");
+        if (avatar != null)
+        {
+            Debug.Log("### MY | AvatarChangeHandler | Clone avatar to load with changed appearance");
 
-        Avatar oldAvatar = avatar;
-        avatar = Instantiate(avatarCopy, oldAvatar.gameObject.transform.parent);
-        avatar.gameObject.name = oldAvatar.gameObject.name;
-        oldAvatar.gameObject.SetActive(false);
+            oldAvatar = avatar;
+            newAvatar = Instantiate(avatarCopy, avatarCopy.gameObject.transform.parent);
+            newAvatar.gameObject.transform.localScale = Vector3.one * .01f;
+            newAvatar.OnUserAvatarLoadedEvent.AddListener(replaceOldAvatarWithComletelyLoadedNewOne);
+            newAvatar.gameObject.SetActive(true);
+            newAvatarCamera = newAvatar.GetComponentInChildren<Camera>().gameObject;
+            newAvatarCamera.SetActive(false);
+
+            mirrorAvatar.reload();
+        }
+    }
+
+    private void replaceOldAvatarWithComletelyLoadedNewOne(OvrAvatarEntity _)
+    {
+        Debug.Log("### MY | AvatarChangeHandler | Replace old avatar with new one");
+
+        newAvatarCamera.SetActive(true);
+        newAvatar.gameObject.transform.localScale = Vector3.one;
+        newAvatar.gameObject.name = oldAvatar.gameObject.name;
         oldAvatar.gameObject.name += " (old)";
-        avatar.gameObject.SetActive(true);
+        oldAvatar.gameObject.SetActive(false);
 
-        onAvatarReplaceEvent.Invoke(oldAvatar, avatar);
+        onAvatarReplaceEvent.Invoke(oldAvatar, newAvatar);
 
         Destroy(oldAvatar.gameObject);
-
-        mirrorAvatar.reload();
+        oldAvatar = null;
+        avatar = newAvatar;
+        newAvatar = null;
     }
 }

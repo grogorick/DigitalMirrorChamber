@@ -187,6 +187,7 @@ public class RemoteControl : MonoBehaviour
 
     public void action_zoomMount()
     {
+        Debug.Log("### MY | Remote Control | Tablet zoom mount");
         zoomOriginRemoteControl.SetActive(true);
         customHandPoseLeft.enabled = true;
         Vibrate.now(false, true);
@@ -206,16 +207,33 @@ public class RemoteControl : MonoBehaviour
         // left hand pointing down
         if (animZoom.value == 1 && (transform.rotation * Vector3.up).y < -.2f)
         {
-            Debug.Log("### MY | Remote Control | Hand down detected -> tablet zoom unmount");
-            zoomTriggerRing.SetActive(true);
+            Debug.Log("### MY | Remote Control | Left hand down detected");
+            zoomUnmount();
+
             customHandPoseLeft.enabled = false;
             customHandPoseRight.enabled = false;
-            Vibrate.now(false, true);
-            animZoom.animate(0);
-
-            foreach (TabletButton button in buttons)
-                button.enabled = false;
         }
+    }
+    private void zoomUnmount(Anim.CallbackVoid callbackWhenUnmounted = null)
+    {
+        Debug.Log("### MY | Remote Control | Tablet zoom unmount");
+
+        zoomTriggerRing.SetActive(true);
+        Vibrate.now(false, true);
+        Anim a = animZoom.animate(0);
+        if (callbackWhenUnmounted != null)
+        {
+            a.then(() =>
+            {
+                customHandPoseLeft.enabled = false;
+                customHandPoseRight.enabled = false;
+
+                callbackWhenUnmounted();
+            });
+        }
+
+        foreach (TabletButton button in buttons)
+            button.enabled = false;
     }
 
     public void anim_zoomTablet(float value)
@@ -238,6 +256,8 @@ public class RemoteControl : MonoBehaviour
     }
 
 
+    [Header("Avatar Editor")]
+    public TabletButton openAvatarEditorButton;
     private bool avatarEditorStarted = false;
 
     void initAvatarEditor()
@@ -248,13 +268,14 @@ public class RemoteControl : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    public bool _loadAvatarEditor = false;
+    [Header("Debug (in play mode only)")]
+    public bool _reloadAvatarNow = false;
     public bool _showTablet = false;
     private void Update()
     {
-        if (_loadAvatarEditor)
+        if (_reloadAvatarNow)
         {
-            _loadAvatarEditor = false;
+            _reloadAvatarNow = false;
             action_startAvatarEditor();
         }
         if (_showTablet)
@@ -268,6 +289,13 @@ public class RemoteControl : MonoBehaviour
     public void action_startAvatarEditor()
     {
         Debug.Log("### MY | Remote Control | Open avatar editor");
+
+        zoomUnmount(_startAvatarEditor);
+    }
+    private void _startAvatarEditor()
+    {
+        openAvatarEditorButton.setPressed(false);
+
         avatarEditorStarted = true;
 #if UNITY_EDITOR
         inputFocusAcquired();
@@ -281,8 +309,9 @@ public class RemoteControl : MonoBehaviour
         Debug.Log("### MY | Remote Control | Focus acquired");
         if (avatarEditorStarted)
         {
-            Debug.Log("### MY | Remote Control | Resumed from avatar editor -> Reload avatar");
             avatarEditorStarted = false;
+
+            Debug.Log("### MY | Remote Control | Resumed from avatar editor -> Reload avatar");
             avatarChangeHandler.reloadAvatar();
         }
     }
