@@ -1016,9 +1016,6 @@ MonoBehaviour:
   shaderGrayToSolidColorBlend_: 0.7
   shaderDesatBlend_: 0
   shaderSolidColor_: {r: 0.12941177, g: 0.19607843, b: 0.3882353, a: 0}
-  onAvatarChangeDetectedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &307099418 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2430523750807860367, guid: c019572605bc29e42b3ed5a058599618,
@@ -1101,6 +1098,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5924dee3aab8afc479e93d0ffdcd4c98, type: 2}
+    - target: {fileID: 3536242858174382244, guid: b97ed1e17a97f0e4882f3dea9dd70ac4,
+        type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].time
+      value: 0.060438156
+      objectReference: {fileID: 0}
     - target: {fileID: 3857376938552521415, guid: b97ed1e17a97f0e4882f3dea9dd70ac4,
         type: 3}
       propertyPath: m_Name
@@ -3758,6 +3760,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jointType: 19
+--- !u!114 &1791832152 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715102382849255890, guid: b97ed1e17a97f0e4882f3dea9dd70ac4,
+    type: 3}
+  m_PrefabInstance: {fileID: 370544558}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d3cab16fcd4984aad205e3f147692e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1801662847
 GameObject:
   m_ObjectHideFlags: 0
@@ -4449,7 +4463,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2043905274}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32f3cd2ab93d875418350b1b6f51d33f, type: 3}
   m_Name: 
@@ -4469,7 +4483,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2043905274}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32f3cd2ab93d875418350b1b6f51d33f, type: 3}
   m_Name: 
@@ -4495,7 +4509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _creationInfo:
-    features: 382
+    features: 1406
     renderFilters:
       lodFlags: 31
       manifestationFlags: 2
@@ -4569,9 +4583,6 @@ MonoBehaviour:
   shaderGrayToSolidColorBlend_: 0.7
   shaderDesatBlend_: 0
   shaderSolidColor_: {r: 0.12941177, g: 0.19607843, b: 0.3882353, a: 0}
-  onAvatarChangeDetectedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2065813337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7172,7 +7183,9 @@ MonoBehaviour:
   maxZoomTriggerFingertip: 0
   minZoomRemoteControl: 0.01
   zoomSpeed: 0.1
-  loadAvatarEditor: 0
+  openAvatarEditorButton: {fileID: 1791832152}
+  _reloadAvatarNow: 0
+  _showTablet: 0
 --- !u!114 &5724847006936668023
 MonoBehaviour:
   m_ObjectHideFlags: 0

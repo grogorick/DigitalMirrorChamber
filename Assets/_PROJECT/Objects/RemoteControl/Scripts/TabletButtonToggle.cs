@@ -23,6 +23,7 @@ public class TabletButtonToggle : TabletButton
             if (action != null)
             {
                 Debug.Log("### MY | TabletButtonToggle | `" + name + "` | doAction | action");
+                playClickSound();
                 action.Invoke();
             }
             else
@@ -31,6 +32,7 @@ public class TabletButtonToggle : TabletButton
         else if (buttonReleaseAction != null)
         {
             Debug.Log("### MY | TabletButtonToggle | `" + name + "` | doAction | buttonReleaseAction");
+            playClickSound();
             buttonReleaseAction.Invoke();
         }
     }

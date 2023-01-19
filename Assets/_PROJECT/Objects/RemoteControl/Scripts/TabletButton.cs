@@ -5,11 +5,13 @@ public class TabletButton : TriggerAction
 {
     public float releasedPosZ = -.01f;
     public bool pressed;
+    private AudioSource clickSound;
 
 
     protected virtual void Start()
     {
         colliderTag = "ButtonTrigger";
+        clickSound = GetComponent<AudioSource>();
 
         setPressed(false);
     }
@@ -19,7 +21,14 @@ public class TabletButton : TriggerAction
     {
         Debug.Log("### MY | TabletButton | `" + name + "` | doAction");
         press();
+        playClickSound();
         base.doAction();
+    }
+
+    protected void playClickSound()
+    {
+        if (action.GetPersistentEventCount() > 0)
+            clickSound.Play();
     }
 
     protected virtual void press()
@@ -32,7 +41,7 @@ public class TabletButton : TriggerAction
         vibrate();
     }
 
-    protected void setPressed(bool press)
+    public void setPressed(bool press)
     {
         Debug.Log("### MY | TabletButton | `" + name + "` | setPressed (" + press + ")");
 
@@ -43,7 +52,7 @@ public class TabletButton : TriggerAction
     }
 
 
-    protected void releaseBtnAfter(float seconds = .5f)
+    public void releaseBtnAfter(float seconds = .5f)
     {
         StartCoroutine(_releaseBtnAfter(seconds));
     }
