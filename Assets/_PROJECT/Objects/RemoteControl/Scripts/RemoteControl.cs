@@ -11,6 +11,7 @@ public class RemoteControl : MonoBehaviour
         initAvatarHandPoses();
         initAvatarEditor();
         initZoom();
+        initLights();
 
         initAnims();
 
@@ -252,6 +253,46 @@ public class RemoteControl : MonoBehaviour
         if (animZoom.value == 1)
         {
             zoomTriggerRing.SetActive(false);
+        }
+    }
+
+
+    [Header("Light Switch")]
+    public Light sunLight;
+    public float sunLightIntensityOff;
+    private float sunLightIntensityOn;
+
+    public List<Light> lights;
+    public Material lightBulbMaterial;
+    public Color lightBulbColorOff;
+    private Color lightBulbColorOn;
+    public Material lampShadeMaterial;
+
+    private void initLights()
+    {
+        sunLightIntensityOn = sunLight.intensity;
+        lightBulbColorOn = lightBulbMaterial.color;
+    }
+
+    public void action_switchLights(bool lightsOn)
+    {
+        foreach (Light light in lights)
+        {
+            light.gameObject.SetActive(lightsOn);
+        }
+        if (lightsOn)
+        {
+            sunLight.intensity = sunLightIntensityOn;
+            lightBulbMaterial.color = lightBulbColorOn;
+            lightBulbMaterial.EnableKeyword("_EMISSION");
+            lampShadeMaterial.EnableKeyword("_EMISSION");
+        }
+        else
+        {
+            sunLight.intensity = sunLightIntensityOff;
+            lightBulbMaterial.color = lightBulbColorOff;
+            lightBulbMaterial.DisableKeyword("_EMISSION");
+            lampShadeMaterial.DisableKeyword("_EMISSION");
         }
     }
 
