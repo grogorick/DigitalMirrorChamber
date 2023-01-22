@@ -907,6 +907,7 @@ GameObject:
   m_Component:
   - component: {fileID: 305611636}
   - component: {fileID: 305611637}
+  - component: {fileID: 305611638}
   m_Layer: 0
   m_Name: Mirror Avatar
   m_TagString: Untagged
@@ -922,7 +923,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305611635}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: -0.03740001, z: 1.1}
+  m_LocalPosition: {x: 0, y: -0.03740001, z: 1.537}
   m_LocalScale: {x: 1, y: 1, z: -1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1016,6 +1017,25 @@ MonoBehaviour:
   shaderGrayToSolidColorBlend_: 0.7
   shaderDesatBlend_: 0
   shaderSolidColor_: {r: 0.12941177, g: 0.19607843, b: 0.3882353, a: 0}
+--- !u!114 &305611638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305611635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b5820fd9d0f794cb2a7958c5107030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jointName: Joint Hips
+  avatar: {fileID: 0}
+  avatarChangeHandler: {fileID: 0}
+  onAvatarJointFoundEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  axesFactors: {x: 0.5, y: 0, z: -1}
 --- !u!114 &307099418 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2430523750807860367, guid: c019572605bc29e42b3ed5a058599618,
@@ -1733,10 +1753,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 908ec82ff9e040843a2b6cf5b7987e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachJointName: Joint LeftHandIndexMeta
-  mode: 17
+  jointName: Joint LeftHandIndexMeta
   avatar: {fileID: 0}
   avatarChangeHandler: {fileID: 0}
+  onAvatarJointFoundEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  mode: 17
 --- !u!1 &667072925 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7391902389385738691, guid: c6064bc4b200ae74981bef3ebd76aadf,
@@ -3143,7 +3166,7 @@ MonoBehaviour:
   virtualGreenScreenApplyDepthCulling: 0
   virtualGreenScreenDepthTolerance: 0.2
   mrcActivationMode: 0
-  isInsightPassthroughEnabled: 0
+  isInsightPassthroughEnabled: 1
   requestBodyTrackingPermissionOnStartup: 0
   requestFaceTrackingPermissionOnStartup: 0
   requestEyeTrackingPermissionOnStartup: 0
@@ -4525,7 +4548,7 @@ MonoBehaviour:
   _facePoseBehavior: {fileID: 1640224949}
   _eyePoseBehavior: {fileID: 1640224948}
   _lipSync: {fileID: 307099418}
-  _criticalJointTypes: 1a0000001c00000033000000
+  _criticalJointTypes: 1a0000001c0000003300000001000000
   _useExperimentalFeatures: -1
   _debugDrawing:
     drawTrackingPose: 0
@@ -4837,10 +4860,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 908ec82ff9e040843a2b6cf5b7987e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachJointName: Joint LeftHandThumbProximal
-  mode: 17
+  jointName: Joint LeftHandThumbProximal
   avatar: {fileID: 0}
   avatarChangeHandler: {fileID: 0}
+  onAvatarJointFoundEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  mode: 17
 --- !u!1 &2134272227
 GameObject:
   m_ObjectHideFlags: 0
@@ -5703,10 +5729,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 908ec82ff9e040843a2b6cf5b7987e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachJointName: Joint RightHandIndexDistal
-  mode: 17
+  jointName: Joint RightHandIndexDistal
   avatar: {fileID: 0}
   avatarChangeHandler: {fileID: 0}
+  onAvatarJointFoundEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  mode: 17
 --- !u!1001 &2049550312790909676
 PrefabInstance:
   m_ObjectHideFlags: 0
