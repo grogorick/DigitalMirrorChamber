@@ -333,6 +333,11 @@ public class RemoteControl : MonoBehaviour
 
     public void action_quit()
     {
+        StartCoroutine(_quit());
+    }
+    private IEnumerator _quit()
+    {
+        yield return new WaitForSeconds(1);
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
