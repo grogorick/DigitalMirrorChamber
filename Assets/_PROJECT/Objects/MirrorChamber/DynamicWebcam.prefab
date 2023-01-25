@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3133055982345494662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.08090001, z: 0.052399993}
+  m_LocalPosition: {x: 0, y: 0.0801, z: 0.0572}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -157,7 +157,6 @@ MonoBehaviour:
   monitorCamera: {fileID: 3133055982345494658}
   monitorDisplayObject: {fileID: 0}
   monitorCameraResolution: {x: 1024, y: 1024}
-  mainCamera: {fileID: 0}
   monitorCameraHandle: {fileID: 7391902389385738691}
   monitorCameraAnchor: {fileID: 7586946188927153825}
   monitorCameraSlideObject: {fileID: 9105339532870767790}
@@ -345,12 +344,12 @@ PrefabInstance:
     - target: {fileID: 568947078328485124, guid: 409f5bee548517b40a8bcea7b9513a87,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.0008
       objectReference: {fileID: 0}
     - target: {fileID: 568947078328485124, guid: 409f5bee548517b40a8bcea7b9513a87,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0048
       objectReference: {fileID: 0}
     - target: {fileID: 568947078328485124, guid: 409f5bee548517b40a8bcea7b9513a87,
         type: 3}
