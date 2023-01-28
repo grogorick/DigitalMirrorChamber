@@ -259,6 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400006}
   - component: {fileID: 6400000}
+  - component: {fileID: 8253738372470470438}
   m_Layer: 0
   m_Name: Triangle pot bamboo plant prefab
   m_TagString: Untagged
@@ -273,9 +274,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100006}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.933713, y: 0.933713, z: 0.933713}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 400004}
@@ -298,3 +299,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300044, guid: 9bde7338ed7c8a141b7a2e71c75febbe, type: 3}
+--- !u!136 &8253738372470470438
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 4.610413
+  m_Direction: 1
+  m_Center: {x: 0, y: 12.161749, z: 0}
