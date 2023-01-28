@@ -6,6 +6,9 @@ public class TabletButton : TriggerAction
     public float releasedPosZ = -.01f;
     public bool pressed;
     private AudioSource clickSound;
+    private Material material;
+    private Color initialEmissionColor;
+    public float pressedEmissionFactor = 8f;
 
 
 #if UNITY_EDITOR
@@ -25,6 +28,9 @@ public class TabletButton : TriggerAction
     {
         colliderTag = "ButtonTrigger";
         clickSound = GetComponent<AudioSource>();
+        material = GetComponent<MeshRenderer>().material;
+        initialEmissionColor = material.GetColor("_EmissionColor");
+        Debug.Log("### MY | TabletButton | init | `_EmissionColor` = " + initialEmissionColor);
 
         setPressed(false);
     }
@@ -62,6 +68,10 @@ public class TabletButton : TriggerAction
         Vector3 pos = transform.localPosition;
         pos.z = press ? 0 : releasedPosZ;
         transform.localPosition = pos;
+
+        Color color = initialEmissionColor * (pressed ? pressedEmissionFactor : 1f);
+        Debug.Log("### MY | TabletButton | `_EmissionColor` = " + color);
+        material.SetColor("_EmissionColor", color);
     }
 
 
