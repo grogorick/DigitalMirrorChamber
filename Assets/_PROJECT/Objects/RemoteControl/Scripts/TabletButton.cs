@@ -8,6 +8,19 @@ public class TabletButton : TriggerAction
     private AudioSource clickSound;
 
 
+#if UNITY_EDITOR
+    public bool DEBUG_PRESS;
+    private void Update()
+    {
+        if (DEBUG_PRESS)
+        {
+            DEBUG_PRESS = false;
+            doAction();
+        }
+    }
+#endif
+
+
     protected virtual void Start()
     {
         colliderTag = "ButtonTrigger";
