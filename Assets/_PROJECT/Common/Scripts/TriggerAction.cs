@@ -28,7 +28,7 @@ public class TriggerAction : MonoBehaviour
     {
         if (triggerEvent == TriggerEvent.stay && debounce.check())
         {
-            Debug.Log("### MY | TriggerAction | `" + name + "` | Stay");
+            //Debug.Log("### MY | TriggerAction | `" + name + "` | Stay");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 doAction();

@@ -30,7 +30,7 @@ public class TriggerActions : MonoBehaviour
     {
         if (stayAction.GetPersistentEventCount() > 0 && debounce.check())
         {
-            Debug.Log("### MY | TriggerActions | `" + name + "` | Stay");
+            //Debug.Log("### MY | TriggerActions | `" + name + "` | Stay");
 
             if (colliderTag == string.Empty || other.CompareTag(colliderTag))
                 stayAction.Invoke();
