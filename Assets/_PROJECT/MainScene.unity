@@ -1398,6 +1398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 418694829}
+  - component: {fileID: 418694830}
   m_Layer: 0
   m_Name: AvatarStuff
   m_TagString: Untagged
@@ -1424,6 +1425,19 @@ Transform:
   m_Father: {fileID: 285396270}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &418694830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418694828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d20a5130de127439a4764633b70890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitSeconds: 1
 --- !u!4 &471409767 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1065317261194581862, guid: 280a810991528f54a8e722a86ceddd7d,
