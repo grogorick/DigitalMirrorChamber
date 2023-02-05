@@ -1,5 +1,4 @@
 using Oculus.Avatar2;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
