@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33608660233484308}
   - component: {fileID: 23009889196577752}
   - component: {fileID: 65913516913907014}
+  - component: {fileID: 8173730361463382263}
   m_Layer: 0
   m_Name: Travel Mug
   m_TagString: Untagged
@@ -97,3 +98,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.13829038, y: 0.16448653, z: 0.09261513}
   m_Center: {x: 0.022837624, y: 0.08224326, z: 0}
+--- !u!54 &8173730361463382263
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371778623023942}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
