@@ -6,7 +6,6 @@ public class AvatarChangeHandler : MonoBehaviour
 {
     public Avatar avatar, mirrorAvatar;
     private Avatar avatarCopy, oldAvatar, newAvatar;
-    private GameObject newAvatarCamera;
 
     public UnityEvent<Avatar, Avatar> onAvatarReplaceEvent;
 
@@ -34,8 +33,6 @@ public class AvatarChangeHandler : MonoBehaviour
             newAvatar.gameObject.transform.localScale = Vector3.one * .01f;
             newAvatar.OnUserAvatarLoadedEvent.AddListener(replaceOldAvatarWithComletelyLoadedNewOne);
             newAvatar.gameObject.SetActive(true);
-            newAvatarCamera = newAvatar.GetComponentInChildren<Camera>().gameObject;
-            newAvatarCamera.SetActive(false);
 
             mirrorAvatar.reload();
         }
@@ -45,7 +42,6 @@ public class AvatarChangeHandler : MonoBehaviour
     {
         Debug.Log("### MY | AvatarChangeHandler | Replace old avatar with new one");
 
-        newAvatarCamera.SetActive(true);
         newAvatar.gameObject.transform.localScale = Vector3.one;
         newAvatar.gameObject.name = oldAvatar.gameObject.name;
         oldAvatar.gameObject.name += " (old)";

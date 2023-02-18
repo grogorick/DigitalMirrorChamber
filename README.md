@@ -2,8 +2,8 @@
 A digital 360° metaverse avatar fitting room to take a closer look at your customized avatar
 
 ## Not Included Dependencies
-- *Oculus Integration* (47.0) available via Package Manager
-- *Meta Avatars SDK* (20.0) download via [MQDH](https://developer.oculus.com/meta-quest-developer-hub/)
+- *Oculus Integration* (49.0) available via Package Manager
+- *Meta Avatars SDK* (20.1) download via [MQDH](https://developer.oculus.com/meta-quest-developer-hub/)
 
 (Version numbers refer to latest successfully tested versions)
 
