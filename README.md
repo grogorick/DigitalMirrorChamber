@@ -1,6 +1,8 @@
 # Digital Mirror Chamber
 A digital 360° metaverse avatar fitting room to take a closer look at your customized avatar
 
+![cover image](https://raw.githubusercontent.com/grogorick/DMC-Store-Content/main/cover.png)
+
 ## Not Included Dependencies
 - *Unity Editor* (2021.3.8f1)
 - *Oculus Integration* (49.0) &mdash; available via Package Manager
