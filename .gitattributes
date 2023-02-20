@@ -1,102 +1,102 @@
 * text=auto
 
 # Unity files
-*.anim -text merge=unityyamlmerge diff
-*.asset -text merge=unityyamlmerge diff
-*.brush -text merge=unityyamlmerge diff
-*.controller -text merge=unityyamlmerge diff
-*.flare -text merge=unityyamlmerge diff
-*.fontsettings -text merge=unityyamlmerge diff
-*.giparams -text merge=unityyamlmerge diff
-*.guiskin -text merge=unityyamlmerge diff
-*.mask -text merge=unityyamlmerge diff
-*.mat -text merge=unityyamlmerge diff
-*.meta -text merge=unityyamlmerge diff
-*.mixer -text merge=unityyamlmerge diff
-*.overrideController -text merge=unityyamlmerge diff
-*.physicMaterial -text merge=unityyamlmerge diff
-*.physicsMaterial2D -text merge=unityyamlmerge diff
-*.playable -text merge=unityyamlmerge diff
-*.prefab -text merge=unityyamlmerge diff
-*.renderTexture -text merge=unityyamlmerge diff
-*.shadervariants -text merge=unityyamlmerge diff
-*.spriteatlas -text merge=unityyamlmerge diff
-*.terrainlayer -text merge=unityyamlmerge diff
-*.unity -text merge=unityyamlmerge diff
+Assets/**/*.anim -text merge=unityyamlmerge diff
+Assets/**/*.asset -text merge=unityyamlmerge diff
+Assets/**/*.brush -text merge=unityyamlmerge diff
+Assets/**/*.controller -text merge=unityyamlmerge diff
+Assets/**/*.flare -text merge=unityyamlmerge diff
+Assets/**/*.fontsettings -text merge=unityyamlmerge diff
+Assets/**/*.giparams -text merge=unityyamlmerge diff
+Assets/**/*.guiskin -text merge=unityyamlmerge diff
+Assets/**/*.mask -text merge=unityyamlmerge diff
+Assets/**/*.mat -text merge=unityyamlmerge diff
+Assets/**/*.meta -text merge=unityyamlmerge diff
+Assets/**/*.mixer -text merge=unityyamlmerge diff
+Assets/**/*.overrideController -text merge=unityyamlmerge diff
+Assets/**/*.physicMaterial -text merge=unityyamlmerge diff
+Assets/**/*.physicsMaterial2D -text merge=unityyamlmerge diff
+Assets/**/*.playable -text merge=unityyamlmerge diff
+Assets/**/*.prefab -text merge=unityyamlmerge diff
+Assets/**/*.renderTexture -text merge=unityyamlmerge diff
+Assets/**/*.shadervariants -text merge=unityyamlmerge diff
+Assets/**/*.spriteatlas -text merge=unityyamlmerge diff
+Assets/**/*.terrainlayer -text merge=unityyamlmerge diff
+Assets/**/*.unity -text merge=unityyamlmerge diff
 
 # Image formats
-*.bmp filter=lfs diff=lfs merge=lfs -text
-*.dds filter=lfs diff=lfs merge=lfs -text
-*.exr filter=lfs diff=lfs merge=lfs -text
-*.gif filter=lfs diff=lfs merge=lfs -text
-*.hdr filter=lfs diff=lfs merge=lfs -text
-*.iff filter=lfs diff=lfs merge=lfs -text
-*.jpeg filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-*.pict filter=lfs diff=lfs merge=lfs -text
-*.png filter=lfs diff=lfs merge=lfs -text
-*.psd filter=lfs diff=lfs merge=lfs -text
-*.tga filter=lfs diff=lfs merge=lfs -text
-*.tif filter=lfs diff=lfs merge=lfs -text
-*.tiff filter=lfs diff=lfs merge=lfs -text
-*.xcf filter=lfs diff=lfs merge=lfs -text
-*.afdesign filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.bmp filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.dds filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.exr filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.gif filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.hdr filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.iff filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.pict filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.png filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.psd filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.tga filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.tif filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.tiff filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.xcf filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.afdesign filter=lfs diff=lfs merge=lfs -text
 
 # Audio formats
-*.aif filter=lfs diff=lfs merge=lfs -text
-*.aiff filter=lfs diff=lfs merge=lfs -text
-*.it filter=lfs diff=lfs merge=lfs -text
-*.mod filter=lfs diff=lfs merge=lfs -text
-*.mp3 filter=lfs diff=lfs merge=lfs -text
-*.ogg filter=lfs diff=lfs merge=lfs -text
-*.s3m filter=lfs diff=lfs merge=lfs -text
-*.wav filter=lfs diff=lfs merge=lfs -text
-*.xm filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.aif filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.aiff filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.it filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mod filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mp3 filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.ogg filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.s3m filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.wav filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.xm filter=lfs diff=lfs merge=lfs -text
 
 # Video formats
-*.asf filter=lfs diff=lfs merge=lfs -text
-*.avi filter=lfs diff=lfs merge=lfs -text
-*.mov filter=lfs diff=lfs merge=lfs -text
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-*.mpeg filter=lfs diff=lfs merge=lfs -text
-*.mpg filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.asf filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.avi filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mov filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mpeg filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mpg filter=lfs diff=lfs merge=lfs -text
 
 # 3D formats
-*.3dm filter=lfs diff=lfs merge=lfs -text
-*.3ds filter=lfs diff=lfs merge=lfs -text
-*.abc filter=lfs diff=lfs merge=lfs -text
-*.blend filter=lfs diff=lfs merge=lfs -text
-*.c4d filter=lfs diff=lfs merge=lfs -text
-*.collada filter=lfs diff=lfs merge=lfs -text
-*.dae filter=lfs diff=lfs merge=lfs -text
-*.dfx filter=lfs diff=lfs merge=lfs -text
-*.fbx filter=lfs diff=lfs merge=lfs -text
-*.jas filter=lfs diff=lfs merge=lfs -text
-*.lwo filter=lfs diff=lfs merge=lfs -text
-*.lwo2 filter=lfs diff=lfs merge=lfs -text
-*.lws filter=lfs diff=lfs merge=lfs -text
-*.lxo filter=lfs diff=lfs merge=lfs -text
-*.ma filter=lfs diff=lfs merge=lfs -text
-*.max filter=lfs diff=lfs merge=lfs -text
-*.mb filter=lfs diff=lfs merge=lfs -text
-*.obj filter=lfs diff=lfs merge=lfs -text
-*.ply filter=lfs diff=lfs merge=lfs -text
-*.skp filter=lfs diff=lfs merge=lfs -text
-*.stl filter=lfs diff=lfs merge=lfs -text
-*.ztl filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.3dm filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.3ds filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.abc filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.blend filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.c4d filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.collada filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.dae filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.dfx filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.fbx filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.jas filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.lwo filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.lwo2 filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.lws filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.lxo filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.ma filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.max filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mb filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.obj filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.ply filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.skp filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.stl filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.ztl filter=lfs diff=lfs merge=lfs -text
 
 # Fonts
-*.otf filter=lfs diff=lfs merge=lfs -text
-*.ttf filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.otf filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.ttf filter=lfs diff=lfs merge=lfs -text
 
 # Build
-*.dll filter=lfs diff=lfs merge=lfs -text
-*.mdb filter=lfs diff=lfs merge=lfs -text
-*.pdb filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.dll filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.mdb filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.pdb filter=lfs diff=lfs merge=lfs -text
 
 # Packaging
-*.7z filter=lfs diff=lfs merge=lfs -text
-*.gz filter=lfs diff=lfs merge=lfs -text
-*.rar filter=lfs diff=lfs merge=lfs -text
-*.tar filter=lfs diff=lfs merge=lfs -text
-*.zip filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.7z filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.gz filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.rar filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.tar filter=lfs diff=lfs merge=lfs -text
+Assets/**/*.zip filter=lfs diff=lfs merge=lfs -text
